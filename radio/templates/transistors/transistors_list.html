@@ -1,0 +1,46 @@
+{% extends 'index_template.html' %}}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Характеристики транзистора</h2>
+    <table class="table table-bordered table-responsive">
+        <thead class="thead-light">
+            <tr>
+                <th>Тип транзистора</th>
+                <th>Напряжение (V)</th>
+                <th>Ток (I)</th>
+                <th>Коэффициент усиления (h_FE)</th>
+                <th>Сопротивление (R)</th>
+                <th>Частотный диапазон (f_T)</th>
+                <th>Состояния работы</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>BJT</td>
+                <td>0.7 (V_BE)</td>
+                <td>I_E, I_B, I_C</td>
+                <td>h_FE = I_C/I_B</td>
+                <td>Входное и выходное</td>
+                <td>f_T = 1 (Гц)</td>
+                <td>Активное, насыщенное, отсечённое</td>
+            </tr>
+            <tr>
+                <td>FET</td>
+                <td>2-4 (V_GS)</td>
+                <td>I_S, I_D</td>
+                <td>β = I_D/I_G</td>
+                <td>Входное и выходное</td>
+                <td>f_T = 1 (Гц)</td>
+                <td>Активное, насыщенное, отсечённое</td>
+            </tr>
+            <!-- Добавьте дополнительные строки по мере необходимости -->
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block left %}
+
+{% endblock %}
