@@ -24,9 +24,9 @@ class Transistor(models.Model):
     mark = models.CharField(max_length=200)
     tip_trans = models.ForeignKey(TipTrans, on_delete=models.CASCADE)
     tip_korpusa = models.ForeignKey(TipKorpus, on_delete=models.CASCADE)
-    amount = models.IntegerField()
-    status = models.IntegerField()
-    datasheet = models.ForeignKey(DatasheetTransistor, on_delete=models.CASCADE)
-
+    amount = models.IntegerField(default=0)
+    status = models.IntegerField(default=0)
+    # datasheet = models.ForeignKey(DatasheetTransistor, on_delete=models.CASCADE, null=True, blank=True)
+    datasheet = models.ManyToManyField(DatasheetTransistor, null=True, blank=True)
     def __str__(self):
         return self.name

@@ -1,39 +1,42 @@
 {% extends 'index_template.html' %}}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center">Характеристики транзистора</h2>
-    <table class="table table-bordered table-responsive">
-        <thead class="thead-light">
+<div class="container mt-2">
+    <h2 class="text-center">Список транзисторов</h2>
+    <table class="table table-bordered table-striped">
+        <thead  class="table-dark text-center">
             <tr>
-                <th>Тип транзистора</th>
-                <th>Напряжение (V)</th>
-                <th>Ток (I)</th>
-                <th>Коэффициент усиления (h_FE)</th>
-                <th>Сопротивление (R)</th>
-                <th>Частотный диапазон (f_T)</th>
-                <th>Состояния работы</th>
+                <th>Наименование</th>
+                <th>Маркировка</th>
+                <th>Тип</th>
+                <th>Корпус</th>
+                <th>Статус</th>
+                <th>Количество</th>
+                <th>DataSheet</th>
             </tr>
         </thead>
         <tbody>
+        {% for t in transistors %}
             <tr>
-                <td>BJT</td>
-                <td>0.7 (V_BE)</td>
-                <td>I_E, I_B, I_C</td>
-                <td>h_FE = I_C/I_B</td>
-                <td>Входное и выходное</td>
-                <td>f_T = 1 (Гц)</td>
-                <td>Активное, насыщенное, отсечённое</td>
+                <td>{{ t.name }}</td>
+                <td>{{ t.mark }}</td>
+                <td>{{ t.tip_trans }}</td>
+                <td>{{ t.tip_korpusa }}</td>
+                <td>
+                    {% if t.status == 0 %}
+                        нов.
+                    {% elif t.status == 1 %}
+                        б/у
+                    {% endif %}
+                </td>
+                <td>{{ t.amount }}</td>
+                <td>
+                    {% for d in t.datasheet.all %}
+                      <a href="/media/{{d.url}}">{{ d.discription }}</a>&nbsp;
+                    {% endfor %}
+                </td>
             </tr>
-            <tr>
-                <td>FET</td>
-                <td>2-4 (V_GS)</td>
-                <td>I_S, I_D</td>
-                <td>β = I_D/I_G</td>
-                <td>Входное и выходное</td>
-                <td>f_T = 1 (Гц)</td>
-                <td>Активное, насыщенное, отсечённое</td>
-            </tr>
+        {% endfor %}
             <!-- Добавьте дополнительные строки по мере необходимости -->
         </tbody>
     </table>
