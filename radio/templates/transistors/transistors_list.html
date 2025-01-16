@@ -2,7 +2,18 @@
 
 {% block content %}
 <div class="container mt-2">
-    <h2 class="text-center">Список транзисторов</h2>
+    <div class="row">
+        <div class="col-md-8">
+            <h4 class="text-center">{{ headword }}</h4>
+        </div>
+        <div class="col-md-4">
+            <form action="" method="post">
+                {% csrf_token %}
+          <button class="btn btn-sm btn-light" type="submit">Найти</button>
+          <input type="text" size="15">
+                </form>
+        </div>
+    </div>
     <table class="table table-bordered table-striped">
         <thead  class="table-dark text-center">
             <tr>
@@ -37,12 +48,32 @@
                 </td>
             </tr>
         {% endfor %}
-            <!-- Добавьте дополнительные строки по мере необходимости -->
         </tbody>
     </table>
 </div>
+ <hr>
+   <div class="pagination">
+    {% if transistors.has_other_pages %}
+        {% if transistors.has_previous %}
+        <a href="?page={{ transistors.previous_page_number }}&pag={{ pag }}">&lt;&lt;</a>
+        {% endif %}
+
+        {% for i in transistors.paginator.page_range %}
+            {% if transistors.number == i %}
+                <b>{{ i }}</b>
+            {% else %}
+                <a href="?page={{ i }}&pag={{ pag }}">{{ i }}</a>
+            {% endif%}
+        {% endfor %}
+
+        {% if transistors.has_next %}
+           <a href="?page={{ transistors.next_page_number }}&pag={{ pag }}">&gt;&gt;</a>
+        {% endif %}
+    {% endif %}
+    </div>
 
 {% endblock %}
+
 
 {% block left %}
 
