@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import transistors_all, transistors_list_tip
+from .views import transistors_all, transistors_list_tip, transistors_list_tip_korpus
 
 
 urlpatterns = [
     path('', transistors_all, name='transistors_all'),
     path('<int:tiptrans_id>/', transistors_list_tip, name='transistors_tip_list'),
-    # path('dop/<int:info_id>/', info_detail, name='info_detail'),
+    path('<int:tiptrans_id>/<int:korpus_id>', transistors_list_tip_korpus, name='transistors_list_tip_korpus'),
     # path('found/', found, name='found'),
 ]

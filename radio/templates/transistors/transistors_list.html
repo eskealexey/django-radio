@@ -10,10 +10,21 @@
             <form action="" method="post">
                 {% csrf_token %}
           <button class="btn btn-sm btn-light" type="submit">Найти</button>
-          <input type="text" size="15">
+          <input type="text" size="15" placeholder="по названию">
                 </form>
         </div>
     </div>
+    <div class="row border border-success" style="font-size:0.8rem">
+        <div class="col-md-1 border fst-italic">
+            Корпуса:
+        </div>
+        <div class="col-md-11 border">
+            {% for link, description in korpus %}
+               <a href="{% url 'transistors_list_tip_korpus' tiptrans_id link %}">{{ description }}</a>
+        {% endfor %}
+        </div>
+    </div>
+
     <table class="table table-bordered table-striped">
         <thead  class="table-dark text-center">
             <tr>
@@ -55,19 +66,19 @@
    <div class="pagination">
     {% if transistors.has_other_pages %}
         {% if transistors.has_previous %}
-        <a href="?page={{ transistors.previous_page_number }}&pag={{ pag }}">&lt;&lt;</a>
+        <a href="?page={{ transistors.previous_page_number }}">&lt;&lt;</a>
         {% endif %}
 
         {% for i in transistors.paginator.page_range %}
             {% if transistors.number == i %}
                 <b>{{ i }}</b>
             {% else %}
-                <a href="?page={{ i }}&pag={{ pag }}">{{ i }}</a>
+                <a href="?page={{ i }}">{{ i }}</a>
             {% endif%}
         {% endfor %}
 
         {% if transistors.has_next %}
-           <a href="?page={{ transistors.next_page_number }}&pag={{ pag }}">&gt;&gt;</a>
+           <a href="?page={{ transistors.next_page_number }}">&gt;&gt;</a>
         {% endif %}
     {% endif %}
     </div>

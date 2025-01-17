@@ -27,6 +27,6 @@ class Transistor(models.Model):
     amount = models.IntegerField(default=0)
     status = models.IntegerField(default=0)
     # datasheet = models.ForeignKey(DatasheetTransistor, on_delete=models.CASCADE, null=True, blank=True)
-    datasheet = models.ManyToManyField(DatasheetTransistor, null=True, blank=True)
+    datasheet = models.ManyToManyField(DatasheetTransistor, blank=True)
     def __str__(self):
         return self.name
