@@ -1,7 +1,10 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views.generic import CreateView
 
-from .models import TipTrans, Transistor
+from .admin import DatasheetAdmin
+from .forms import TransistorAddForm, DatasheetTransistorAddForm
+from .models import TipTrans, Transistor, DatasheetTransistor
 
 
 def get_name_korpus(quary_)->set:
@@ -115,3 +118,42 @@ def transistors_list_tip_korpus(request, tiptrans_id, korpus_id):
         'korpus': korpus,
         'headword': f'Cписок транзисторов'    }
     return render(request, 'transistors/transistors_list.html', context=context)
+
+
+def transistor_add(request):
+    """
+    Функция для добавления нового транзистора
+    """
+    if request.method == 'POST':
+        form = TransistorAddForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('transistors_all')
+    else:
+        form = TransistorAddForm()
+
+    context = {
+        'title': 'Добавление нового транзистора',
+        'form': form,
+    }
+    return render(request, 'transistors/transistor_add.html', context=context)
+
+
+def datasheet_add(request):
+    """
+    Функция для добавления нового даташита
+    """
+    if request.method == 'POST':
+        form = DatasheetTransistorAddForm(request.POST, request.FILES)
+        if form.is_valid():
+            print(form.cleaned_data['discription'])
+            print(form.cleaned_data['url'])
+            form.save()
+            return redirect('transistor_add')
+    else:
+        form = DatasheetTransistorAddForm()
+    context = {
+        'title': 'Добавление нового транзистора',
+        'form': form,
+    }
+    return render(request, 'transistors/datasheet_transistor_add.html', context=context)

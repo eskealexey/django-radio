@@ -18,7 +18,7 @@ class DatasheetTransistor(models.Model):
     url = models.FileField(upload_to='datasheets/transistors', null=True, blank=True)
 
     def __str__(self):
-        return f"{self.discription} {str(self.url)}"
+        return f"{self.discription}   --   {str(self.url)}"
 
 class Transistor(models.Model):
     objects = None
@@ -28,7 +28,8 @@ class Transistor(models.Model):
     tip_korpusa = models.ForeignKey(TipKorpus, on_delete=models.CASCADE)
     amount = models.IntegerField(default=0)
     status = models.IntegerField(default=0)
-    # datasheet = models.ForeignKey(DatasheetTransistor, on_delete=models.CASCADE, null=True, blank=True)
     datasheet = models.ManyToManyField(DatasheetTransistor, blank=True)
+    primech = models.TextField(blank=True, null=True)
+
     def __str__(self):
         return self.name
