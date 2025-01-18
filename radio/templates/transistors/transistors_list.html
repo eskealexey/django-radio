@@ -7,11 +7,12 @@
             <h4 class="text-center">{{ headword }}</h4>
         </div>
         <div class="col-md-4">
-            <form action="" method="post">
-                {% csrf_token %}
-          <button class="btn btn-sm btn-light" type="submit">Найти</button>
-          <input type="text" size="15" placeholder="по названию">
-                </form>
+          {% if tiptrans_id == 0 %}
+          <form action="" method="get">
+            <button class="btn btn-sm btn-light" type="submit">Найти</button>
+            <input type="text" name="find" id="find" size="15" placeholder="по названию">
+          </form>
+          {% endif %}
         </div>
     </div>
     <div class="row border border-success" style="font-size:0.8rem">
@@ -54,7 +55,7 @@
                 <td>{{ t.amount }}</td>
                 <td>
                     {% for d in t.datasheet.all %}
-                      <a href="/media/{{d.url}}">{{ d.discription }}</a>&nbsp;
+                      <a href="/media/{{d.url}}" target="_blank">{{ d.discription }}</a>&nbsp;
                     {% endfor %}
                 </td>
             </tr>
