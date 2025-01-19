@@ -1,48 +1,27 @@
-<!-- Модальное окно -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Заголовок модального окна</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-      </div>
-      <div class="modal-body">
+{% extends 'index_template.html' %}}
 
-          <form method="post" action="" enctype="multipart/form-data">
+{% block content %}
+<div class="container">
+    <h6 class="text-center">Добавление файла Datasheet</h6>
+<hr>
+    <div class="row text-center">
+        <form method="post" action="" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Отправить</button>
+            <p>Описание: {{form.discription}} </p>
+            <p>Путь к файлу: {{form.url}}</p>
+            <p><button class="btn btn-sm btn-primary" type="submit">Отправить</button></p>
         </form>
-
-
-      </div>
-
     </div>
-  </div>
 </div>
 
+{% endblock %}
 
+{% block left %}
+<button onclick="goBack()" class="btn btn-sm btn-secondary">Назад</button>
 
-
-<!--<div id="modal" class="modal">-->
-<!--    <div class="modal-content">-->
-<!--        <span class="close">&times;</span>-->
-<!--        <form method="post" action="" enctype="multipart/form-data">-->
-<!--            {% csrf_token %}-->
-<!--            {{ form.as_p }}-->
-<!--            <button type="submit">Отправить</button>-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<script>-->
-<!--    $(document).ready(function() {-->
-<!--        $('#open-modal').click(function() {-->
-<!--            $('#modal').show();-->
-<!--        });-->
-
-<!--        $('.close').click(function() {-->
-<!--            $('#modal').hide();-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+{% endblock %}

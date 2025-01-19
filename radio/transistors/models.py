@@ -2,19 +2,19 @@ from django.db import models
 
 class TipTrans(models.Model):
     objects = None
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
         return self.name
 
 class TipKorpus(models.Model):
-    name = models.CharField(max_length=200, blank=True, null=True)
+    name = models.CharField(max_length=200, blank=True, null=True, unique=True)
 
     def __str__(self):
         return self.name
 
 class DatasheetTransistor(models.Model):
-    discription = models.CharField(max_length=200, default='-')
+    discription = models.CharField(max_length=200, default='Datasheet Transistor')
     url = models.FileField(upload_to='datasheets/transistors', null=True, blank=True)
 
     def __str__(self):

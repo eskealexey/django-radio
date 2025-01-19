@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 
@@ -146,8 +147,6 @@ def datasheet_add(request):
     if request.method == 'POST':
         form = DatasheetTransistorAddForm(request.POST, request.FILES)
         if form.is_valid():
-            print(form.cleaned_data['discription'])
-            print(form.cleaned_data['url'])
             form.save()
             return redirect('transistor_add')
     else:
@@ -157,3 +156,34 @@ def datasheet_add(request):
         'form': form,
     }
     return render(request, 'transistors/datasheet_transistor_add.html', context=context)
+
+def accounting_(request: HttpRequest, amount: int = 0)-> int:
+    """
+    Функция для подсчета количества транзисторов
+    """
+    quantity = request.POST['quantity']
+    activ = request.POST['activ']
+    print(amount)
+    if activ == '+':
+        amount += int(quantity)
+    else:
+        amount -= int(quantity)
+        if amount < 0:
+            amount = 0
+    return amount
+
+
+def change_transistor_amout(request, transistor_id):
+    """
+    Функция для изменения количества транзисторов
+    """
+    if request.method == 'POST':
+        transistor = Transistor.objects.get(id=transistor_id)
+        amount = transistor.amount
+        total = accounting_(request, amount)
+        transistor.amount = total
+        transistor.save()
+        return redirect('transistors_all')
+    else:
+        return redirect('transistors_all')
+

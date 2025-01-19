@@ -33,7 +33,7 @@
                 <th>Маркировка</th>
                 <th>Тип</th>
                 <th>Корпус</th>
-                <th>Статус</th>
+<!--                <th>Статус</th>-->
                 <th>Количество</th>
                 <th>DataSheet</th>
             </tr>
@@ -45,14 +45,40 @@
                 <td>{{ t.mark }}</td>
                 <td>{{ t.tip_trans }}</td>
                 <td>{{ t.tip_korpusa }}</td>
+<!--                <td>-->
+<!--                    {% if t.status == 0 %}-->
+<!--                        нов.-->
+<!--                    {% elif t.status == 1 %}-->
+<!--                        б/у-->
+<!--                    {% endif %}-->
+<!--                </td>-->
                 <td>
-                    {% if t.status == 0 %}
-                        нов.
-                    {% elif t.status == 1 %}
-                        б/у
-                    {% endif %}
+                    <div class="row g-1">
+                        <div class="col-md-3 fw-medium text-warning bg-success text-center">
+                            {{ t.amount }}
+                        </div>
+                        <div class="col-md-9">
+                            <form action="{% url 'change_transistor_amout' t.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <input type="number" name="quantity" value="0" min="0" size="1">
+                                    </div>
+                                    <div class="col-md-5">
+                                          <input type="radio" name="activ" id="add" value="+" required>
+                                          <label for="add">+</label>
+
+                                          <input type="radio" name="activ" id="del" value="-" required>
+                                          <label for="del">-</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-sm btn-info" type="submit">Ok</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </td>
-                <td>{{ t.amount }}</td>
                 <td>
                     {% for d in t.datasheet.all %}
                       <a href="/media/{{d.url}}" target="_blank">{{ d.discription }}</a>&nbsp;
