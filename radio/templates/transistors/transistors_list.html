@@ -41,7 +41,9 @@
         <tbody>
         {% for t in transistors %}
             <tr>
-                <td>{{ t.name }}</td>
+                <td>
+                    <a href="{% url 'transistor_detail' t.pk %}">{{ t.name }}</a>
+                </td>
                 <td>{{ t.mark }}</td>
                 <td>{{ t.tip_trans }}</td>
                 <td>{{ t.tip_korpusa }}</td>

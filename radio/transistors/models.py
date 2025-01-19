@@ -1,4 +1,7 @@
+import os
+
 from django.db import models
+
 
 class TipTrans(models.Model):
     objects = None
@@ -7,18 +10,22 @@ class TipTrans(models.Model):
     def __str__(self):
         return self.name
 
+
 class TipKorpus(models.Model):
     name = models.CharField(max_length=200, blank=True, null=True, unique=True)
 
     def __str__(self):
         return self.name
 
+
 class DatasheetTransistor(models.Model):
-    discription = models.CharField(max_length=200, default='Datasheet Transistor')
+    objects = None
+    discription = models.CharField(max_length=200, default='Datasheet')
     url = models.FileField(upload_to='datasheets/transistors', null=True, blank=True)
 
     def __str__(self):
-        return f"{self.discription}   --   {str(self.url)}"
+        return f"{os.path.basename(str(self.url))}"
+
 
 class Transistor(models.Model):
     objects = None

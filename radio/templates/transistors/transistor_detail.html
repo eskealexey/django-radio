@@ -1,0 +1,93 @@
+{% extends 'index_template.html' %}}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-7 card">
+          <div class="card-body">
+            <h1 class="card-title">Транзистор {{transistor.name}}</h1>
+              <h3 class="card-subtitle mb-2 text-body-secondary">Маркировка: <i><u>{{ transistor.mark }}</u></i></h3>
+              <p></p>
+              <p class="card-text">
+                Тип транзистора: <i><u>{{ transistor.tip_trans.name }}</u></i>
+              </p>
+              <p class="card-text">
+                Корпус:   <i><u>{{ transistor.tip_korpusa.name }}</u></i>
+              </p>
+
+          </div>
+        </div>
+        <div class="col-5">
+            <div>
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Примечания:</h5>
+                    <p class="card-text">{{ transistor.primech}}</p>
+
+
+                      <!-- Кнопка-триггер модального окна -->
+<button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Изменить
+</button>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить ПРИМЕЧАНИЯ</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+          <form method="POST" action="">
+              {% csrf_token %}
+              <p><textarea id="primech" name="primech" rows="5" class="form-control">{{ transistor.primech }}</textarea></p>
+              <p><button type="submit" class="btn btn-sm btn-secondary">Сохранить изменения</button></p>
+          </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!--                      <a href="#" class="card-link">Изменить</a>-->
+
+                  </div>
+                </div>
+            </div>
+            <p></p>
+            <div>
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Файлы Datasheets:</h5>
+                    <p class="card-text text-left">
+                        {% for file in transistor.datasheet.all %}
+                            <p><a href="/media/{{file.url}}" target="_blank"><button class="btn btn-sm btn-secondary">{{ file }}</button></a></p>
+                        {% endfor %}
+                    </p>
+
+                  </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<p></p>
+<div class="g-2"><a href="#" target="_blank"><button class="btn btn-sm btn-secondary">Редактировать</button></a></div>
+{% endblock %}
+
+
+
+{% block left %}
+    {% include "transistors/transistor_left.html" %}
+{% endblock %}

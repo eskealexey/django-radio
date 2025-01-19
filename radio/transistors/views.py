@@ -157,6 +157,7 @@ def datasheet_add(request):
     }
     return render(request, 'transistors/datasheet_transistor_add.html', context=context)
 
+
 def accounting_(request: HttpRequest, amount: int = 0)-> int:
     """
     Функция для подсчета количества транзисторов
@@ -187,3 +188,15 @@ def change_transistor_amout(request, transistor_id):
     else:
         return redirect('transistors_all')
 
+def transistor_detail(request, pk):
+    """
+    Функция для вывода детальной информации о транзисторе
+    """
+    transistor = Transistor.objects.get(id=pk)
+
+    print(transistor.amount)
+    context = {
+        'title': 'Transistor Detail',
+        'transistor': transistor,
+    }
+    return render(request, 'transistors/transistor_detail.html', context=context)

@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import transistors_all, transistors_list_tip, transistors_list_tip_korpus, datasheet_add
-from .views import transistor_add, change_transistor_amout           #, datasheet_add
+from .views import transistor_add, change_transistor_amout, transistor_detail           #, datasheet_add
 
 
 urlpatterns = [
@@ -10,4 +10,5 @@ urlpatterns = [
     path('add/', transistor_add, name='transistor_add'),
     path('datasheetadd/', datasheet_add, name='datasheet_add'),
     path('change/<int:transistor_id>/', change_transistor_amout, name='change_transistor_amout'),
+    path('detail/<int:pk>/', transistor_detail, name='transistor_detail'),
 ]
