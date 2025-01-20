@@ -1,11 +1,9 @@
 from django.core.paginator import Paginator
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView
 
-from .admin import DatasheetAdmin
-from .forms import TransistorAddForm, DatasheetTransistorAddForm
-from .models import TipTrans, Transistor, DatasheetTransistor
+from .forms import TransistorAddForm, DatasheetTransistorAddForm, TransistorPrimechAddForm
+from .models import TipTrans, Transistor
 
 
 def get_name_korpus(quary_)->set:
@@ -193,10 +191,31 @@ def transistor_detail(request, pk):
     Функция для вывода детальной информации о транзисторе
     """
     transistor = Transistor.objects.get(id=pk)
-
-    print(transistor.amount)
     context = {
         'title': 'Transistor Detail',
         'transistor': transistor,
     }
     return render(request, 'transistors/transistor_detail.html', context=context)
+
+def transistor_primech_change(request,transistor_id):
+    """
+    Функция для редактирования примечания к транзистору
+    """
+    transistor = Transistor.objects.get(id=transistor_id)
+    context = {
+        'title': 'primech',
+        'transistor': transistor,
+    }
+    if request.method == 'POST':
+        form = TransistorPrimechAddForm(request.POST)
+        if form.is_valid():
+            idt = request.POST.get('idt')
+            primech = request.POST.get('primech')
+            transistor.primech = primech
+            form.save()
+            context = {
+                'title': 'primech',
+                'transistor': transistor,
+            }
+            return redirect('transistor_detail', pk=idt, context=context)
+    return render(request, 'transistors/transistor_detail.html', context={'title': 'primech'})

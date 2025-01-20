@@ -39,8 +39,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
       </div>
       <div class="modal-body">
-          <form method="POST" action="">
+          <form method="POST" action="{% url 'transistor_primech_change' transistor_id %}">
               {% csrf_token %}
+              <input type="hidden" name="idt" value="{{ transistor.id }}">
               <p><textarea id="primech" name="primech" rows="5" class="form-control">{{ transistor.primech }}</textarea></p>
               <p><button type="submit" class="btn btn-sm btn-secondary">Сохранить изменения</button></p>
           </form>

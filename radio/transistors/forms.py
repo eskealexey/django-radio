@@ -24,3 +24,9 @@ class DatasheetTransistorAddForm(forms.ModelForm):
     class Meta:
         model = DatasheetTransistor
         fields = ['discription', 'url']
+
+
+class TransistorPrimechAddForm(forms.ModelForm):
+    class Meta:
+        model = Transistor
+        fields = ['primech']
