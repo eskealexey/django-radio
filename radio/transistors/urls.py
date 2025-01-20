@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import transistors_all, transistors_list_tip, transistors_list_tip_korpus, datasheet_add
+from .views import transistors_all, transistors_list_tip, transistors_list_tip_korpus, datasheet_add, transistor_count
 from .views import transistor_add, change_transistor_amout, transistor_detail, transistor_primech_change           #, datasheet_add
 
 
@@ -12,4 +12,5 @@ urlpatterns = [
     path('change/<int:transistor_id>/', change_transistor_amout, name='change_transistor_amout'),
     path('detail/<int:pk>/', transistor_detail, name='transistor_detail'),
     path('prim/<int:transistor_id>/', transistor_primech_change, name='transistor_primech_change'),
+    path('count/<int:transistor_id>/', transistor_count, name='transistor_count'),
 ]

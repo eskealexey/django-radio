@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 from django.http import HttpRequest
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TransistorAddForm, DatasheetTransistorAddForm, TransistorPrimechAddForm
 from .models import TipTrans, Transistor
@@ -160,9 +160,11 @@ def accounting_(request: HttpRequest, amount: int = 0)-> int:
     """
     Функция для подсчета количества транзисторов
     """
-    quantity = request.POST['quantity']
-    activ = request.POST['activ']
-    print(amount)
+    try:
+        quantity = int(request.POST.get('quantity', 0))
+    except ValueError:
+        quantity = 0
+    activ = request.POST.get('activ', '+')
     if activ == '+':
         amount += int(quantity)
     else:
@@ -186,6 +188,7 @@ def change_transistor_amout(request, transistor_id):
     else:
         return redirect('transistors_all')
 
+
 def transistor_detail(request, pk):
     """
     Функция для вывода детальной информации о транзисторе
@@ -197,25 +200,45 @@ def transistor_detail(request, pk):
     }
     return render(request, 'transistors/transistor_detail.html', context=context)
 
-def transistor_primech_change(request,transistor_id):
+
+def transistor_primech_change(request, transistor_id):
     """
     Функция для редактирования примечания к транзистору
     """
-    transistor = Transistor.objects.get(id=transistor_id)
+    transistor = get_object_or_404(Transistor, id=transistor_id)
     context = {
         'title': 'primech',
         'transistor': transistor,
     }
+
     if request.method == 'POST':
-        form = TransistorPrimechAddForm(request.POST)
+        form = TransistorPrimechAddForm(request.POST, instance=transistor)
         if form.is_valid():
-            idt = request.POST.get('idt')
-            primech = request.POST.get('primech')
-            transistor.primech = primech
             form.save()
-            context = {
-                'title': 'primech',
-                'transistor': transistor,
-            }
-            return redirect('transistor_detail', pk=idt, context=context)
-    return render(request, 'transistors/transistor_detail.html', context={'title': 'primech'})
+            return redirect('transistor_detail', pk=transistor_id)
+    else:
+        form = TransistorPrimechAddForm(instance=transistor)
+
+    context['form'] = form
+    return render(request, 'transistors/transistor_detail.html', context)
+
+
+def transistor_count(request, transistor_id):
+    """
+    Функция для изменения количества транзисторов
+    """
+    transistor = get_object_or_404(Transistor, id=transistor_id)
+    print(transistor.amount)
+    context = {
+        'title': 'transistor_count',
+        'transistor': transistor,
+    }
+    if request.method == 'POST':
+        amount = transistor.amount
+        total = accounting_(request, amount)
+        transistor.amount = total
+        transistor.save()
+
+        return redirect('transistor_detail', pk=transistor_id)
+    else:
+        return render(request, 'transistors/transistor_detail.html', context)
