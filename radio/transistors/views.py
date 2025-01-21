@@ -3,7 +3,7 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TransistorAddForm, DatasheetTransistorAddForm, TransistorPrimechAddForm, TransistorEditForm
-from .models import TipTrans, Transistor
+from .models import TipTrans, Transistor, DatasheetTransistor
 
 
 def get_name_korpus(quary_)->set:
@@ -123,6 +123,7 @@ def transistor_add(request):
     """
     Функция для добавления нового транзистора
     """
+    tiptrans = TipTrans.objects.all()
     if request.method == 'POST':
         form = TransistorAddForm(request.POST)
         if form.is_valid():
@@ -133,6 +134,7 @@ def transistor_add(request):
 
     context = {
         'title': 'Добавление нового транзистора',
+        'tiptrans': tiptrans,
         'form': form,
 
     }
@@ -143,6 +145,7 @@ def transistor_edit(request, pk):
     """
     Функция для редактирования транзистора
     """
+    tiptrans = TipTrans.objects.all()
     transistor = get_object_or_404(Transistor, id=pk)
     if request.method == 'POST':
         form = TransistorEditForm(request.POST, instance=transistor)
@@ -156,6 +159,7 @@ def transistor_edit(request, pk):
         'title': 'Редактирование транзистора',
         'form': form,
         'transistor': transistor,
+        'tiptrans': tiptrans,
         'pk': pk,
     }
     return render(request, 'transistors/transistor_edit.html', context=context)
@@ -166,17 +170,22 @@ def datasheet_add(request):
     """
     Функция для добавления нового даташита
     """
+    tiptrans = TipTrans.objects.all()
+    datasheets = DatasheetTransistor.objects.all()
     if request.method == 'POST':
         form = DatasheetTransistorAddForm(request.POST, request.FILES)
         if form.is_valid():
-            for item in form:
-                print(item)
-            form.save()
-            return redirect('transistors_all')
+            if not form.cleaned_data['url']:
+                pass
+            else:
+                form.save()
+            return redirect('datasheet_trahsisitor_add')
     else:
         form = DatasheetTransistorAddForm()
     context = {
         'title': 'Добавление нового транзистора',
+        'tiptrans': tiptrans,
+        'datasheets': datasheets,
         'form': form,
     }
     return render(request, 'transistors/datasheet_transistor_add.html', context=context)
@@ -220,9 +229,11 @@ def transistor_detail(request, pk):
     Функция для вывода детальной информации о транзисторе
     """
     transistor = Transistor.objects.get(id=pk)
+    tiptrans = TipTrans.objects.all()
     context = {
         'title': 'Transistor Detail',
         'transistor': transistor,
+        'tiptrans': tiptrans,
     }
     return render(request, 'transistors/transistor_detail.html', context=context)
 

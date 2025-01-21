@@ -13,6 +13,20 @@
         </form>
     </div>
 </div>
+<hr>
+<div class="container">
+    <h6 class="text-center">Список файлов Datasheet транзисторов</h6>
+    <table class="table table-striped table-bordered">
+        {% for datasheet in datasheets %}
+            <tr>
+                <td>{{ forloop.counter }}</td><td>{{ datasheet }}</td><td>{{ datasheet.url }}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
 
 {% endblock %}
 
