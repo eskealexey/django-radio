@@ -2,7 +2,7 @@ from django.core.paginator import Paginator
 from django.http import HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import TransistorAddForm, DatasheetTransistorAddForm, TransistorPrimechAddForm
+from .forms import TransistorAddForm, DatasheetTransistorAddForm, TransistorPrimechAddForm, TransistorEditForm
 from .models import TipTrans, Transistor
 
 
@@ -134,8 +134,32 @@ def transistor_add(request):
     context = {
         'title': 'Добавление нового транзистора',
         'form': form,
+
     }
     return render(request, 'transistors/transistor_add.html', context=context)
+
+
+def transistor_edit(request, pk):
+    """
+    Функция для редактирования транзистора
+    """
+    transistor = get_object_or_404(Transistor, id=pk)
+    if request.method == 'POST':
+        form = TransistorEditForm(request.POST, instance=transistor)
+        if form.is_valid():
+            form.save()
+            return redirect('transistor_detail', pk=pk)
+    else:
+        form = TransistorEditForm(instance=transistor)
+
+    context = {
+        'title': 'Редактирование транзистора',
+        'form': form,
+        'transistor': transistor,
+        'pk': pk,
+    }
+    return render(request, 'transistors/transistor_edit.html', context=context)
+
 
 
 def datasheet_add(request):
