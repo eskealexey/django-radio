@@ -75,55 +75,6 @@
 
 </form>
 
-<!-- Кнопка-триггер модального окна -->
-<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-  Добавить Datasheet
-</button>
-
-<!-- Модальное окно -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Добавление файла Datasheet</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-      </div>
-      <div class="modal-body">
-
-
-                    <form method="post" action="{% url 'datasheet_add' %}" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <p>Описание:<br>
-                            <input class="form-control" type="text" name="discription">
-                        </p>
-                        <p>Путь к файлу: <br>
-                            <input class="form-control" type="file" name="url"></p>
-                        <p><button class="btn btn-sm btn-primary" type="submit">Отправить</button></p>
-                    </form>
-
-
-
-          ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-<!--        <button type="button" class="btn btn-primary">Понял</button>-->
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-<!--<div class="form-group col-md-4 m-6 d-flex">-->
-<!--    <div class="p-2 align-self-center">-->
-<!--        <a href="{% url 'datasheet_add' %}" id="open-modal">-->
-<!--            <button type="button" class="btn btn-success">Добавить Datasheet</button>-->
-<!--        </a>-->
-<!--    </div>-->
-<!--</div>-->
 {% endblock %}
 
 

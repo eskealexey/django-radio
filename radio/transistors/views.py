@@ -169,8 +169,10 @@ def datasheet_add(request):
     if request.method == 'POST':
         form = DatasheetTransistorAddForm(request.POST, request.FILES)
         if form.is_valid():
+            for item in form:
+                print(item)
             form.save()
-            return redirect('transistor_add')
+            return redirect('transistors_all')
     else:
         form = DatasheetTransistorAddForm()
     context = {
