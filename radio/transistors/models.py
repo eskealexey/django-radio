@@ -20,7 +20,7 @@ class TipKorpus(models.Model):
 
 class DatasheetTransistor(models.Model):
     objects = None
-    discription = models.CharField(max_length=200, default='Datasheet')
+    discription = models.CharField(max_length=200, blank=True)
     url = models.FileField(upload_to='datasheets/transistors', null=True, blank=True)
 
     def __str__(self):

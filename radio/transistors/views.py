@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
@@ -165,7 +166,6 @@ def transistor_edit(request, pk):
     return render(request, 'transistors/transistor_edit.html', context=context)
 
 
-
 def datasheet_add(request):
     """
     Функция для добавления нового даташита
@@ -175,11 +175,22 @@ def datasheet_add(request):
     if request.method == 'POST':
         form = DatasheetTransistorAddForm(request.POST, request.FILES)
         if form.is_valid():
-            if not form.cleaned_data['url']:
-                pass
+            uploaded_file = request.FILES['url']
+            discription = request.POST['discription']
+            file = "datasheets/transistors/" + uploaded_file.name
+
+            # Проверка существования файла
+            if DatasheetTransistor.objects.filter(url=file).exists():
+                messages.error(request, f"Файл с именем <b>{uploaded_file.name}</b> уже существует.")
             else:
-                form.save()
-            return redirect('datasheet_trahsisitor_add')
+                # Сохранение файла
+                DatasheetTransistor.objects.create(url=file, discription=discription)
+                messages.success(request, "Файл успешно загружен.")
+                # form.save()
+                return redirect('datasheet_trahsisitor_add')  # Замените на ваш router для перенаправления
+
+
+        return redirect('datasheet_trahsisitor_add')
     else:
         form = DatasheetTransistorAddForm()
     context = {
@@ -265,7 +276,7 @@ def transistor_count(request, transistor_id):
     Функция для изменения количества транзисторов
     """
     transistor = get_object_or_404(Transistor, id=transistor_id)
-    print(transistor.amount)
+
     context = {
         'title': 'transistor_count',
         'transistor': transistor,
