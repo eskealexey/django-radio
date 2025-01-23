@@ -171,26 +171,40 @@ def datasheet_add(request):
     Функция для добавления нового даташита
     """
     tiptrans = TipTrans.objects.all()
-    datasheets = DatasheetTransistor.objects.all()
+    datasheets = DatasheetTransistor.objects.all().order_by('discription')
+    # if request.method == 'POST':
+    #     form = DatasheetTransistorAddForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         uploaded_file = request.FILES['url']
+    #         discription = request.POST['discription']
+    #         file = "datasheets/transistors/" + uploaded_file.name
+    #
+    #         # Проверка существования файла
+    #         if DatasheetTransistor.objects.filter(url=file).exists():
+    #             messages.error(request, f"Файл с именем <b>{uploaded_file.name}</b> уже существует.")
+    #         else:
+    #             # Сохранение файла
+    #             DatasheetTransistor.objects.create(url=file, discription=discription)
+    #             messages.success(request, "Файл успешно загружен.")
+    #             # form.save()
+    #             return redirect('datasheet_trahsisitor_add')  # Замените на ваш router для перенаправления
+    #
+    #
+    #     return redirect('datasheet_trahsisitor_add')
     if request.method == 'POST':
         form = DatasheetTransistorAddForm(request.POST, request.FILES)
         if form.is_valid():
-            uploaded_file = request.FILES['url']
-            discription = request.POST['discription']
+            uploaded_file = form.cleaned_data['url']
+            disription = form.cleaned_data['discription']
             file = "datasheets/transistors/" + uploaded_file.name
-
-            # Проверка существования файла
+            print(uploaded_file)
+            print(file)
             if DatasheetTransistor.objects.filter(url=file).exists():
                 messages.error(request, f"Файл с именем <b>{uploaded_file.name}</b> уже существует.")
             else:
-                # Сохранение файла
-                DatasheetTransistor.objects.create(url=file, discription=discription)
-                messages.success(request, "Файл успешно загружен.")
-                # form.save()
-                return redirect('datasheet_trahsisitor_add')  # Замените на ваш router для перенаправления
-
-
-        return redirect('datasheet_trahsisitor_add')
+                messages.success(request, f"Файл <b>{uploaded_file.name}</b> успешно загружен.")
+                form.save()
+            return redirect('datasheet_trahsisitor_add')
     else:
         form = DatasheetTransistorAddForm()
     context = {

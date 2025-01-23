@@ -42,18 +42,11 @@
         {% for t in transistors %}
             <tr>
                 <td>
-                    <a href="{% url 'transistor_detail' t.pk %}">{{ t.name }}</a>
+                    <a href="{% url 'transistor_detail' t.pk %}"><button type="button" class="btn btn-sm btn-info">{{ t.name }}</button></a>
                 </td>
-                <td>{{ t.mark }}</td>
-                <td>{{ t.tip_trans }}</td>
-                <td>{{ t.tip_korpusa }}</td>
-<!--                <td>-->
-<!--                    {% if t.status == 0 %}-->
-<!--                        нов.-->
-<!--                    {% elif t.status == 1 %}-->
-<!--                        б/у-->
-<!--                    {% endif %}-->
-<!--                </td>-->
+                <td style="font-size:0.9rem">{{ t.mark }}</td>
+                <td style="font-size:0.9rem">{{ t.tip_trans }}</td>
+                <td style="font-size:0.9rem">{{ t.tip_korpusa }}</td>
                 <td>
                     <div class="row g-1">
                         <div class="col-md-3 fw-medium text-warning bg-success text-center">
@@ -74,14 +67,14 @@
                                           <label for="del">-</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <button class="btn btn-sm btn-info" type="submit">Ok</button>
+                                        <button class="btn btn-sm btn-success" type="submit">Ok</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </td>
-                <td>
+                <td style="font-size:0.8rem">
                     {% for d in t.datasheet.all %}
                       <a href="/media/{{d.url}}" target="_blank">{{ d.discription }}</a>&nbsp;
                     {% endfor %}

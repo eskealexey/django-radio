@@ -10,7 +10,7 @@ class TransistorAddForm(ModelForm):
     """
     class Meta:
         model = Transistor
-        fields = ['name', 'mark', 'tip_trans', 'tip_korpusa', 'amount', 'status', 'datasheet', 'primech']
+        fields = ['name', 'mark', 'tip_trans', 'tip_korpusa', 'amount', 'datasheet', 'primech']
         widgets = {
             'datasheet': SelectMultiple(
                 attrs={'class': 'form-control', 'rows': 5},
@@ -25,7 +25,7 @@ class TransistorEditForm(ModelForm):
     """
     class Meta:
         model = Transistor
-        fields = ['name', 'mark', 'tip_trans', 'tip_korpusa', 'status', 'datasheet']
+        fields = ['name', 'mark', 'tip_trans', 'tip_korpusa', 'datasheet']
         widgets = {
             'datasheet': SelectMultiple(
                 attrs={'class': 'form-control', 'rows': 5},

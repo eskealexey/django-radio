@@ -5,12 +5,13 @@
     <h6 class="text-center">Добавление файла Datasheet</h6>
 <hr>
     {% if messages %}
-    {% for message in messages %}
-        <div class="alert {{ message.tags }}">{{ message|safe }}</div>
-    {% endfor %}
-{% endif %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message|safe }}</div>
+        {% endfor %}
+    <hr>
+    {% endif %}
     <div class="row text-center">
-        <form method="post" action="" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p>Описание: {{form.discription}} </p>
             <p>Путь к файлу: {{form.url}}</p>
@@ -21,7 +22,7 @@
 </div>
 <hr>
 <div class="container">
-    <h6 class="text-center">Список файлов Datasheet транзисторов в каталоге "datasheets/transistors/"</h6>
+    <h6 class="text-center text-decoration-underline fs-4">Список файлов Datasheet транзисторов в каталоге "datasheets/transistors/"</h6>
     <table class="table table-striped table-bordered">
         {% for datasheet in datasheets %}
             <tr>
