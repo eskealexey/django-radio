@@ -1,0 +1,24 @@
+{% extends 'index_template.html' %}}
+
+{% block content %}
+<div class="container text-center">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><u>Удаление</u></h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Дествительно хотите удалить {{transistor.name}}?</h6>
+        <p class="card-text">
+            <form action="{% url 'transistor_delete' transistor.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Да</button>
+                <input type="button" class="btn btn-secondary" onclick="history.back();" value="Нет"/>
+            </form>
+        </p>
+
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block left %}
+    {% include "transistors/transistor_left.html" %}
+{% endblock %}

@@ -172,25 +172,6 @@ def datasheet_add(request):
     """
     tiptrans = TipTrans.objects.all()
     datasheets = DatasheetTransistor.objects.all().order_by('discription')
-    # if request.method == 'POST':
-    #     form = DatasheetTransistorAddForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         uploaded_file = request.FILES['url']
-    #         discription = request.POST['discription']
-    #         file = "datasheets/transistors/" + uploaded_file.name
-    #
-    #         # Проверка существования файла
-    #         if DatasheetTransistor.objects.filter(url=file).exists():
-    #             messages.error(request, f"Файл с именем <b>{uploaded_file.name}</b> уже существует.")
-    #         else:
-    #             # Сохранение файла
-    #             DatasheetTransistor.objects.create(url=file, discription=discription)
-    #             messages.success(request, "Файл успешно загружен.")
-    #             # form.save()
-    #             return redirect('datasheet_trahsisitor_add')  # Замените на ваш router для перенаправления
-    #
-    #
-    #     return redirect('datasheet_trahsisitor_add')
     if request.method == 'POST':
         form = DatasheetTransistorAddForm(request.POST, request.FILES)
         if form.is_valid():
@@ -304,3 +285,24 @@ def transistor_count(request, transistor_id):
         return redirect('transistor_detail', pk=transistor_id)
     else:
         return render(request, 'transistors/transistor_detail.html', context)
+
+
+def transistor_removal_confirmation(request, pk):
+    """
+    Функция для подтверждения удаления транзистора
+    """
+    transistor = get_object_or_404(Transistor, id=pk)
+    context = {
+        'title': 'transistor_removal_confirmation',
+        'transistor': transistor,
+    }
+    return render(request, 'transistors/transistor_removal_confirmation.html', context)
+
+
+def transistor_delete(request, pk):
+    """
+    Функция для удаления транзистора
+    """
+    transistor = get_object_or_404(Transistor, id=pk)
+    transistor.delete()
+    return redirect('transistors_all')
