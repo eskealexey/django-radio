@@ -96,7 +96,6 @@ def transistors_list_tip_korpus(request, tiptrans_id, korpus_id):
     Функция для вывода списка транзисторов по типу и корпусу
     """
     tiptrans = TipTrans.objects.all()
-
     if tiptrans_id == 0:
         transistors = Transistor.objects.filter(tip_korpusa_id=korpus_id).order_by('name')
     else:
@@ -132,12 +131,10 @@ def transistor_add(request):
             return redirect('transistors_all')
     else:
         form = TransistorAddForm()
-
     context = {
         'title': 'Добавление нового транзистора',
         'tiptrans': tiptrans,
         'form': form,
-
     }
     return render(request, 'transistors/transistor_add.html', context=context)
 
@@ -155,7 +152,6 @@ def transistor_edit(request, pk):
             return redirect('transistor_detail', pk=pk)
     else:
         form = TransistorEditForm(instance=transistor)
-
     context = {
         'title': 'Редактирование транзистора',
         'form': form,
@@ -176,10 +172,7 @@ def datasheet_add(request):
         form = DatasheetTransistorAddForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_file = form.cleaned_data['url']
-            disription = form.cleaned_data['discription']
             file = "datasheets/transistors/" + uploaded_file.name
-            print(uploaded_file)
-            print(file)
             if DatasheetTransistor.objects.filter(url=file).exists():
                 messages.error(request, f"Файл с именем <b>{uploaded_file.name}</b> уже существует.")
             else:
@@ -253,7 +246,6 @@ def transistor_primech_change(request, transistor_id):
         'title': 'primech',
         'transistor': transistor,
     }
-
     if request.method == 'POST':
         form = TransistorPrimechAddForm(request.POST, instance=transistor)
         if form.is_valid():
@@ -261,7 +253,6 @@ def transistor_primech_change(request, transistor_id):
             return redirect('transistor_detail', pk=transistor_id)
     else:
         form = TransistorPrimechAddForm(instance=transistor)
-
     context['form'] = form
     return render(request, 'transistors/transistor_detail.html', context)
 
@@ -281,7 +272,6 @@ def transistor_count(request, transistor_id):
         total = accounting_(request, amount)
         transistor.amount = total
         transistor.save()
-
         return redirect('transistor_detail', pk=transistor_id)
     else:
         return render(request, 'transistors/transistor_detail.html', context)
