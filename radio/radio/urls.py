@@ -24,7 +24,8 @@ from radio import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
-    path('transistors/', include('transistors.urls'), name='sorts'),
+    path('transistors/', include('transistors.urls'), name='transistors'),
+    path('diodes/', include('diodes.urls'), name='diodes'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,17 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TransistorAddForm, DatasheetTransistorAddForm, TransistorPrimechAddForm, TransistorEditForm
 from .models import TipTrans, Transistor, DatasheetTransistor
-
-
-def get_name_korpus(quary_)->set:
-    """
-    Функция для получения множества корпусов транзисторов
-    """
-    korpus = []
-    for i in quary_:
-        tuple_ = (i.tip_korpusa.id, i.tip_korpusa.name)
-        korpus.append(tuple_)
-    return set(korpus)
+from myapp.utils import get_name_korpus
 
 
 def transistors_all(request):

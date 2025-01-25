@@ -1,0 +1,114 @@
+{% extends 'index_template.html' %}}
+
+{% block content %}
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-md-8">
+            <h4 class="text-center">{{ headword }}</h4>
+        </div>
+        <div class="col-md-4">
+          {% if tipdiode_id == 0 %}
+          <form action="" method="get">
+            <button class="btn btn-sm btn-light" type="submit">Найти</button>
+            <input type="text" name="find" id="find" size="15" placeholder="по названию">
+          </form>
+          {% endif %}
+        </div>
+    </div>
+    <div class="row border border-success" style="font-size:0.8rem">
+        <div class="col-md-1 border fst-italic">
+            Корпуса:
+        </div>
+        <div class="col-md-11 border">
+            {% for link, description in korpusa_diode %}
+               <a href="#">{{ description }}</a>
+        {% endfor %}
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead  class="table-dark text-center">
+            <tr>
+                <th>Наименование</th>
+                <th>Маркировка</th>
+                <th>Тип</th>
+                <th>Корпус</th>
+<!--                <th>Статус</th>-->
+                <th>Количество</th>
+                <th>DataSheet</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for d in diodes %}
+            <tr>
+                <td>
+                    <a href="#"><img src="/static/app/img/minus.png" width="15" height="15" alt="Убрать транзистор"/></a>
+                    <a href="#"><button type="button" class="btn btn-sm btn-info">{{ d.name }}</button></a>
+                </td>
+                <td style="font-size:0.9rem">{{ d.mark }}</td>
+                <td style="font-size:0.9rem">{{ d.tip_diode }}</td>
+                <td style="font-size:0.9rem">{{ d.tip_korpusa_diode }}</td>
+                <td>
+                    <div class="row g-1">
+                        <div class="col-md-3 fw-medium text-warning bg-success text-center">
+                            {{ d.amount }}
+                        </div>
+                        <div class="col-md-9">
+                            <form action="#" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <input type="number" name="quantity" value="0" min="0" size="1">
+                                    </div>
+                                    <div class="col-md-5 text-center">
+                                          <input type="radio" name="activ" id="add" value="+" required>
+                                          <label for="add">+</label>
+
+                                          <input type="radio" name="activ" id="del" value="-" required>
+                                          <label for="del">-</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-sm btn-success" type="submit">Ok</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+                <td style="font-size:0.8rem">
+                    {% for d in d.datasheet.all %}
+                      <a href="/media/{{d.url}}" target="_blank">{{ d.discription }}</a>&nbsp;
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+ <hr>
+
+ <!-- Пагинация -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Перв. </a>
+                <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+
+            <span class="current">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Последн.</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
+
+
+
+{% block left %}
+<!--{% include "transistors/transistor_left.html" %}-->
+{% endblock %}
