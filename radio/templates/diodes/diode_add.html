@@ -1,0 +1,82 @@
+{% extends 'index_template.html' %}}
+
+{% block content %}
+<div class="container mt-2">
+    <div class="row">
+        <h4>{{ title }}</h4>
+    </div>
+</div>
+ <hr>
+
+<form method="post" action="{% url 'diode_add' %}">
+    {% csrf_token %}
+
+    <div class="row m-2">
+        <div class="form-group col-md-2">
+            Наименование:
+        </div>
+        <div class="form-group col-md-4">
+            {{ form.name }}
+        </div>
+        <div class="form-group col-md-2">
+            Маркировка:
+        </div>
+        <div class="form-group col-md-4">
+            {{ form.mark }}
+        </div>
+    </div>
+
+    <div class="row m-2">
+        <div class="form-group col-md-2">
+            Тип дода:
+        </div>
+        <div class="form-group col-md-4">
+            {{ form.tip_diode }}
+        </div>
+        <div class="form-group col-md-2">
+            Корпус:
+        </div>
+        <div class="form-group col-md-4">
+            {{ form.tip_korpusa }}
+        </div>
+    </div>
+
+    <div class="row m-2">
+        <div class="form-group col-md-2">
+            Количество:
+        </div>
+        <div class="form-group col-md-4">
+            {{ form.amount }}
+        </div>
+
+    </div>
+    <div class="row m-2">
+            <div class="form-group col-md-12">
+                Примечание:<br>
+                {{ form.primech }}
+            </div>
+
+    </div>
+
+  <div class="row m-2 border d-flex justify-content-start align-items-center">
+    <div class="form-group col-md-8" style="font-size:0.9rem">
+        <span class="text-decoration-underline text-success">Файлы DataSheet: </span>
+        <div style="font-size:0.7rem">
+            {{ form.datasheet }}
+        </div>
+        <p></p>
+    </div>
+    <div class="form-group col-md-4">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </div>
+</div>
+
+</form>
+
+{% endblock %}
+
+
+
+{% block left %}
+{% include "diodes/diode_left.html" %}
+{% endblock %}

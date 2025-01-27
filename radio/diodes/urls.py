@@ -1,12 +1,13 @@
 from django.urls import path
 
-from .views import DiodeListView, DiodesListView
+from .views import DiodeListView, DiodeListTipView, DiodeListTipKorpusView, DiodeAddView
 
 urlpatterns = [
     path('', DiodeListView.as_view(), name='diodes_all'),
-    path('<int:tipdiode_id>/', DiodesListView.as_view(), name='diodes_tip_list'),
-    # path('<int:tiptrans_id>/<int:korpus_id>', transistors_list_tip_korpus, name='transistors_list_tip_korpus'),
-    # path('add/', transistor_add, name='transistor_add'),
+    path('<int:tipdiode_id>/', DiodeListTipView.as_view(), name='diodes_tip_list'),
+    path('<int:tip_id>/<int:korpus_id>/', DiodeListTipKorpusView.as_view(), name='diodes_list_tip_korpus'),
+    path('add/', DiodeAddView.as_view(), name='diode_add'),
+
     # path('edit/<int:pk>/', transistor_edit, name='transistor_edit'),
     # path('datasheetadd/', datasheet_add, name='datasheet_trahsisitor_add'),
     # path('change/<int:transistor_id>/', change_transistor_amout, name='change_transistor_amout'),

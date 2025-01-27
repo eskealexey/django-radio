@@ -21,7 +21,7 @@
         </div>
         <div class="col-md-11 border">
             {% for link, description in korpusa_diode %}
-               <a href="#">{{ description }}</a>
+               <a href="{% url 'diodes_list_tip_korpus' tipdiode_id link %}">{{ description }}</a>
         {% endfor %}
         </div>
     </div>
@@ -110,5 +110,5 @@
 
 
 {% block left %}
-<!--{% include "transistors/transistor_left.html" %}-->
+{% include "diodes/diode_left.html" %}
 {% endblock %}

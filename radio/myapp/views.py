@@ -1,12 +1,11 @@
 from django.shortcuts import render
 
-from transistors.models import TipTrans
-
+from .utils import get_context_comm
 # Create your views here.
+context_comm = get_context_comm()
 def home(request):
-    tiptrans = TipTrans.objects.all()
     context = {
         'title': 'Главная страница',
-        'tiptrans': tiptrans,
     }
+    context.update(context_comm)
     return render(request, 'main.html', context=context)
