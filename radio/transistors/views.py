@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TransistorAddForm, DatasheetTransistorAddForm, TransistorPrimechAddForm, TransistorEditForm
 from .models import TipTrans, Transistor, DatasheetTransistor
-from myapp.utils import get_name_korpus, get_context_comm
+from myapp.utils import get_name_korpus, get_context_comm, accounting_
 
 
 def transistors_all(request):
@@ -172,24 +172,6 @@ def datasheet_add(request):
     }
     context.update(get_context_comm())
     return render(request, 'transistors/datasheet_transistor_add.html', context=context)
-
-
-def accounting_(request: HttpRequest, amount: int = 0)-> int:
-    """
-    Функция для подсчета количества транзисторов
-    """
-    try:
-        quantity = int(request.POST.get('quantity', 0))
-    except ValueError:
-        quantity = 0
-    activ = request.POST.get('activ', '+')
-    if activ == '+':
-        amount += int(quantity)
-    else:
-        amount -= int(quantity)
-        if amount < 0:
-            amount = 0
-    return amount
 
 
 def change_transistor_amout(request, transistor_id):

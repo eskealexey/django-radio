@@ -1,11 +1,12 @@
+from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
-from myapp.utils import get_name_korpus, get_context_comm
+from myapp.utils import get_name_korpus, get_context_comm, accounting_
 
 
-from .models import TipDiode, Diode
-from .forms import DiodeAddForm, DiodeEditForm, DiodePrimechAddForm
+from .models import TipDiode, Diode, DatasheetDiode
+from .forms import DiodeAddForm, DiodeEditForm, DiodePrimechAddForm, DatasheetDiodeAddForm
 
 
 class DiodeListView(ListView):
@@ -172,3 +173,89 @@ class DiodePrimechChangeView(UpdateView):
 
     def get_success_url(self):
         return reverse('diode_detail', kwargs={'pk': self.object.pk})
+
+
+class DatasheetDiodeAddView(CreateView):
+    """
+    Класс для добавления нового даташита диода
+    """
+    model = DatasheetDiode
+    form_class = DatasheetDiodeAddForm
+    template_name = 'diodes/datasheet_diode_add.html'
+    success_url = '/diodes/datasheetadd/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Добавление нового диода'
+        context['datasheets'] = DatasheetDiode.objects.all().order_by('discription')
+        context.update(get_context_comm())
+        return context
+
+    def form_valid(self, form):
+        uploaded_file = form.cleaned_data['url']
+        file = "datasheets/diodes/" + uploaded_file.name
+        if DatasheetDiode.objects.filter(url=file).exists():
+            messages.error(self.request, f"Файл с именем <b>{uploaded_file.name}</b> уже существует.")
+        else:
+            messages.success(self.request, f"Файл <b>{uploaded_file.name}</b> успешно загружен.")
+            form.save()
+        return super().form_valid(form)
+
+
+
+def change_diode_amout(request, pk):
+    """
+    Функция для изменения количества транзисторов
+    """
+    if request.method == 'POST':
+        diode = Diode.objects.get(id=pk)
+        amount = diode.amount
+        total = accounting_(request, amount)
+        diode.amount = total
+        diode.save()
+        return redirect('diodes_all')
+    else:
+        return redirect('diodes_all')
+
+
+def diode_count(request, pk):
+    """
+    Функция для изменения количества диодов
+    """
+    diode = get_object_or_404(Diode, id=pk)
+
+    context = {
+        'title': 'diode_count',
+        'diode': diode,
+    }
+    context.update(get_context_comm())
+    if request.method == 'POST':
+        amount = diode.amount
+        total = accounting_(request, amount)
+        diode.amount = total
+        diode.save()
+        return redirect('diode_detail', pk=pk)
+    else:
+        return render(request, 'diodes/diode_detail.html', context)
+
+
+def diode_removal_confirmation(request, pk):
+    """
+    Функция для подтверждения удаления диода
+    """
+    diode = get_object_or_404(Diode, id=pk)
+    context = {
+        'title': 'diode_removal_confirmation',
+        'diode': diode,
+    }
+    context.update(get_context_comm())
+    return render(request, 'diodes/diode_removal_confirmation.html', context)
+
+
+def diode_delete(request, pk):
+    """
+    Функция для удаления транзистора
+    """
+    diode = get_object_or_404(Diode, id=pk)
+    diode.delete()
+    return redirect('diodes_all')

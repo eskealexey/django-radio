@@ -34,7 +34,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                           </div>
                           <div class="modal-body">
-                              <form method="post" action="#">
+                              <form method="post" action="{% url 'diode_count' diode.id %}">
                                   {% csrf_token %}
                                   <input type="hidden" name="idt" value="{{ diode.id }}">
                                   <p><input type="number" id="quantity" name="quantity" class="form-control" min="0" placeholder="кол-во" required></p>

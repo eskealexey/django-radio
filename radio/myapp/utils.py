@@ -1,3 +1,4 @@
+from django.http import HttpRequest
 from transistors.models import TipTrans
 from diodes.models import TipDiode
 
@@ -38,3 +39,21 @@ def get_context_comm()->dict:
     }
 
     return context_comm
+
+
+def accounting_(request: HttpRequest, amount: int = 0)-> int:
+    """
+    Функция для подсчета количества транзисторов
+    """
+    try:
+        quantity = int(request.POST.get('quantity', 0))
+    except ValueError:
+        quantity = 0
+    activ = request.POST.get('activ', '+')
+    if activ == '+':
+        amount += int(quantity)
+    else:
+        amount -= int(quantity)
+        if amount < 0:
+            amount = 0
+    return amount

@@ -33,17 +33,17 @@ class DiodeEditForm(ModelForm):
         }
 
 
-# class DatasheetTransistorAddForm(forms.ModelForm):
-#     """
-#     Form for adding datasheet
-#     """
-#     url = forms.FileField(label="Выберите файлы", widget=forms.ClearableFileInput(attrs={'multiple': False}))
-#
-#     class Meta:
-#         model = DatasheetTransistor
-#         fields = ['discription', 'url']
-#
-#
+class DatasheetDiodeAddForm(forms.ModelForm):
+    """
+    Form for adding datasheet
+    """
+    url = forms.FileField(label="Выберите файлы", widget=forms.ClearableFileInput(attrs={'multiple': False}))
+
+    class Meta:
+        model = DatasheetDiode
+        fields = ['discription', 'url']
+
+
 class DiodePrimechAddForm(forms.ModelForm):
     """
     Form for adding primech
