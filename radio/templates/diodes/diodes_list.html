@@ -42,8 +42,8 @@
         {% for d in diodes %}
             <tr>
                 <td>
-                    <a href="#"><img src="/static/app/img/minus.png" width="15" height="15" alt="Убрать транзистор"/></a>
-                    <a href="#"><button type="button" class="btn btn-sm btn-info">{{ d.name }}</button></a>
+                    <a href="#"><img src="/static/app/img/minus.png" width="15" height="15" alt="Убрать диод"/></a>
+                    <a href="{% url 'diode_detail' d.id %}"><button type="button" class="btn btn-sm btn-info">{{ d.name }}</button></a>
                 </td>
                 <td style="font-size:0.9rem">{{ d.mark }}</td>
                 <td style="font-size:0.9rem">{{ d.tip_diode }}</td>

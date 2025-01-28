@@ -1,9 +1,11 @@
-from django.shortcuts import redirect, render
-from django.views.generic import ListView, CreateView
+from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from myapp.utils import get_name_korpus, get_context_comm
 
+
 from .models import TipDiode, Diode
-from .forms import DiodeAddForm
+from .forms import DiodeAddForm, DiodeEditForm, DiodePrimechAddForm
 
 
 class DiodeListView(ListView):
@@ -117,3 +119,56 @@ class DiodeAddView(CreateView):
         context['title'] = 'Добавление нового диода'
         context.update(get_context_comm())
         return context
+
+
+class DiodeDetailView(DetailView):
+    """
+    Класс для вывода детальной информации о диоде
+    """
+    model = Diode
+    template_name = 'diodes/diode_detail.html'
+    context_object_name = 'diode'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Diode Detail'
+        context.update(get_context_comm())
+        return context
+
+
+class DiodeEditView(UpdateView):
+    """
+    Класс для редактирования диода
+    """
+    model = Diode
+    form_class = DiodeEditForm
+    template_name = 'diodes/diode_edit.html'
+    context_object_name = 'diode'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Редактирование диода'
+        context.update(get_context_comm())
+        return context
+
+    def get_success_url(self):
+        return reverse('diode_detail', kwargs={'pk': self.object.pk})
+
+
+class DiodePrimechChangeView(UpdateView):
+    """
+    Класс для редактирования примечания к диоду
+    """
+    model = Diode
+    form_class = DiodePrimechAddForm
+    template_name = 'diodes/diodes_detail.html'
+    context_object_name = 'diode'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'primech'
+        context.update(get_context_comm())
+        return context
+
+    def get_success_url(self):
+        return reverse('diode_detail', kwargs={'pk': self.object.pk})

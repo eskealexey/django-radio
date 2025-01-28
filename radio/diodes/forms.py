@@ -19,22 +19,20 @@ class DiodeAddForm(ModelForm):
         }
 
 
+class DiodeEditForm(ModelForm):
+    """
+    Form for editing transistor
+    """
+    class Meta:
+        model = Diode
+        fields = ['name', 'mark', 'tip_diode', 'tip_korpusa', 'datasheet']
+        widgets = {
+            'datasheet': SelectMultiple(
+                attrs={'class': 'form-control', 'rows': 5},
+            ),
+        }
 
-#
-# class TransistorEditForm(ModelForm):
-#     """
-#     Form for editing transistor
-#     """
-#     class Meta:
-#         model = Transistor
-#         fields = ['name', 'mark', 'tip_trans', 'tip_korpusa', 'datasheet']
-#         widgets = {
-#             'datasheet': SelectMultiple(
-#                 attrs={'class': 'form-control', 'rows': 5},
-#             ),
-#         }
-#
-#
+
 # class DatasheetTransistorAddForm(forms.ModelForm):
 #     """
 #     Form for adding datasheet
@@ -46,11 +44,11 @@ class DiodeAddForm(ModelForm):
 #         fields = ['discription', 'url']
 #
 #
-# class TransistorPrimechAddForm(forms.ModelForm):
-#     """
-#     Form for adding primech
-#     """
-#     class Meta:
-#         model = Transistor
-#         fields = ['primech']
-#
+class DiodePrimechAddForm(forms.ModelForm):
+    """
+    Form for adding primech
+    """
+    class Meta:
+        model = Diode
+        fields = ['primech']
+
