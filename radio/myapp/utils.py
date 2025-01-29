@@ -1,10 +1,7 @@
 from django.http import HttpRequest
 from transistors.models import TipTrans
 from diodes.models import TipDiode
-
-
-from transistors.models import TipTrans
-from diodes.models import TipDiode
+from stabilizers.models import TipStabilizer
 
 def get_name_korpus(quary_)->set:
     """
@@ -22,23 +19,13 @@ def get_context_com()-> dict:
     """
     tiptrans = TipTrans.objects.all()
     tipdiodes = TipDiode.objects.all()
+    tipstabs = TipStabilizer.objects.all()
     context = {
         'tiptrans': tiptrans,
         'tip_diode': tipdiodes,
+        'tipstabs': tipstabs,
     }
     return context
-
-
-def get_context_comm()->dict:
-    """
-    Функция для получения контекста меню
-    """
-    context_comm = {
-        'tiptrans': TipTrans.objects.all(),
-        'tip_diode': TipDiode.objects.all(),
-    }
-
-    return context_comm
 
 
 def accounting_(request: HttpRequest, amount: int = 0)-> int:

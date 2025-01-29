@@ -59,6 +59,22 @@
             <li><a class="dropdown-item text-dark" href="{% url 'datasheet_diode_add' %}">Add Datasheets</a></li>
           </ul>
         </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Стабилизаторы</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item text-dark" href="{% url 'stabilisers_all' %}">Все типы</a></li>
+            <li><hr class="dropdown-divider"></li>
+            {% for t_stab in tipstabs %}
+              {% if t_stab %}
+              <li><a class="dropdown-item text-dark" href="{% url 'stabilizirs_tip_list' t_stab.pk %}">{{ t_stab.name }}</a></li>
+              {% endif %}
+              {% endfor %}
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-dark" href="#">Add Datasheets</a></li>
+          </ul>
+        </li>
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Микросхемы</a>
           <ul class="dropdown-menu">

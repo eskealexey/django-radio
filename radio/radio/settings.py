@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'myapp',
     'transistors',
     'diodes',
+    'stabilizers',
 ]
 
 MIDDLEWARE = [

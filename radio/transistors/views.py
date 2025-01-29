@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TransistorAddForm, DatasheetTransistorAddForm, TransistorPrimechAddForm, TransistorEditForm
 from .models import TipTrans, Transistor, DatasheetTransistor
-from myapp.utils import get_name_korpus, get_context_comm, accounting_
+from myapp.utils import get_name_korpus, get_context_com, accounting_
 
 
 def transistors_all(request):
@@ -30,7 +30,7 @@ def transistors_all(request):
                 'korpus': korpus,
                 'headword': 'Общий список транзисторов',
             }
-            context.update(get_context_comm())
+            context.update(get_context_com())
             return render(request, 'transistors/transistors_list.html', context=context)
 # --------------------------------------------------------------------------------------------------------
     transistors = Transistor.objects.all().order_by('name')
@@ -50,7 +50,7 @@ def transistors_all(request):
         'korpus': korpus,
         'headword': 'Общий список транзисторов',
     }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     return render(request, 'transistors/transistors_list.html', context=context)
 
 
@@ -75,7 +75,7 @@ def transistors_list_tip(request, tiptrans_id):
         'korpus': korpus,
         'headword': f'Cписок транзисторов типа "{TipTrans.objects.get(id=tiptrans_id).name}"'
     }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     return render(request, 'transistors/transistors_list.html', context=context)
 
 
@@ -102,7 +102,7 @@ def transistors_list_tip_korpus(request, tiptrans_id, korpus_id):
         'tiptrans_id': tiptrans_id,
         'korpus': korpus,
         'headword': f'Cписок транзисторов'    }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     return render(request, 'transistors/transistors_list.html', context=context)
 
 
@@ -121,7 +121,7 @@ def transistor_add(request):
         'title': 'Добавление нового транзистора',
         'form': form,
     }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     return render(request, 'transistors/transistor_add.html', context=context)
 
 
@@ -143,7 +143,7 @@ def transistor_edit(request, pk):
         'transistor': transistor,
         'pk': pk,
     }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     return render(request, 'transistors/transistor_edit.html', context=context)
 
 
@@ -170,7 +170,7 @@ def datasheet_add(request):
         'datasheets': datasheets,
         'form': form,
     }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     return render(request, 'transistors/datasheet_transistor_add.html', context=context)
 
 
@@ -198,7 +198,7 @@ def transistor_detail(request, pk):
         'title': 'Transistor Detail',
         'transistor': transistor,
     }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     return render(request, 'transistors/transistor_detail.html', context=context)
 
 
@@ -211,7 +211,7 @@ def transistor_primech_change(request, transistor_id):
         'title': 'primech',
         'transistor': transistor,
     }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     if request.method == 'POST':
         form = TransistorPrimechAddForm(request.POST, instance=transistor)
         if form.is_valid():
@@ -233,7 +233,7 @@ def transistor_count(request, transistor_id):
         'title': 'transistor_count',
         'transistor': transistor,
     }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     if request.method == 'POST':
         amount = transistor.amount
         total = accounting_(request, amount)
@@ -253,7 +253,7 @@ def transistor_removal_confirmation(request, pk):
         'title': 'transistor_removal_confirmation',
         'transistor': transistor,
     }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     return render(request, 'transistors/transistor_removal_confirmation.html', context)
 
 

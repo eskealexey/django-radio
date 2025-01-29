@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
-from myapp.utils import get_name_korpus, get_context_comm, accounting_
+from myapp.utils import get_name_korpus, get_context_com, accounting_
 
 
 from .models import TipDiode, Diode, DatasheetDiode
@@ -35,7 +35,7 @@ class DiodeListView(ListView):
         Переопределение метода для добавления необходимых данных в контекст
         """
         context = super().get_context_data(**kwargs)
-        context.update(get_context_comm())
+        context.update(get_context_com())
         context['tipdiode_id'] = 0
         context['headword'] = 'Общий список диодов'
         context['title'] = 'Diodes List'
@@ -66,7 +66,7 @@ class DiodeListTipView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(get_context_comm())
+        context.update(get_context_com())
         context['title'] = 'Diodes List'
         context['tipdiode_id'] = self.kwargs['tipdiode_id']
         context['korpusa_diode'] = get_name_korpus(self.get_queryset())
@@ -98,7 +98,7 @@ class DiodeListTipKorpusView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(get_context_comm())
+        context.update(get_context_com())
         context['title'] = 'Diodes List'
         context['tipdiode_id'] = self.kwargs['tip_id']
         context['korpusa_diode'] = get_name_korpus(self.get_queryset())
@@ -118,7 +118,7 @@ class DiodeAddView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Добавление нового диода'
-        context.update(get_context_comm())
+        context.update(get_context_com())
         return context
 
 
@@ -133,7 +133,7 @@ class DiodeDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Diode Detail'
-        context.update(get_context_comm())
+        context.update(get_context_com())
         return context
 
 
@@ -149,7 +149,7 @@ class DiodeEditView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Редактирование диода'
-        context.update(get_context_comm())
+        context.update(get_context_com())
         return context
 
     def get_success_url(self):
@@ -168,7 +168,7 @@ class DiodePrimechChangeView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'primech'
-        context.update(get_context_comm())
+        context.update(get_context_com())
         return context
 
     def get_success_url(self):
@@ -188,7 +188,7 @@ class DatasheetDiodeAddView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Добавление нового диода'
         context['datasheets'] = DatasheetDiode.objects.all().order_by('discription')
-        context.update(get_context_comm())
+        context.update(get_context_com())
         return context
 
     def form_valid(self, form):
@@ -228,7 +228,7 @@ def diode_count(request, pk):
         'title': 'diode_count',
         'diode': diode,
     }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     if request.method == 'POST':
         amount = diode.amount
         total = accounting_(request, amount)
@@ -248,7 +248,7 @@ def diode_removal_confirmation(request, pk):
         'title': 'diode_removal_confirmation',
         'diode': diode,
     }
-    context.update(get_context_comm())
+    context.update(get_context_com())
     return render(request, 'diodes/diode_removal_confirmation.html', context)
 
 
