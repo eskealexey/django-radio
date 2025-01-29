@@ -1,8 +1,9 @@
 from django import forms
-from django.contrib.admin.widgets import AdminTextareaWidget, FilteredSelectMultiple
-from django.forms import ModelForm, Textarea, SplitDateTimeWidget, CheckboxSelectMultiple, SelectMultiple, FileInput
+from django.contrib.admin.widgets import AdminTextareaWidget
+from django.forms import ModelForm, SelectMultiple
 
 from .models import *
+
 
 class DiodeAddForm(ModelForm):
     """

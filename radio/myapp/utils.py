@@ -13,6 +13,7 @@ def get_name_korpus(quary_)->set:
         korpus.append(tuple_)
     return set(korpus)
 
+
 def get_context_com()-> dict:
     """
     Функция для получения контекста для общего меню
