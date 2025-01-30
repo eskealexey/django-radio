@@ -1,8 +1,11 @@
-from django.views.generic import ListView, CreateView, DetailView
-from myapp.utils import get_context_com, get_name_korpus
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from myapp.utils import get_context_com, get_name_korpus, accounting_
 
-from .forms import StabilizerAddForm
-from .models import Stabilizer, TipStabilizer
+from .forms import StabilizerAddForm, StabilizerPrimechAddForm, DatasheetStabilizerAddForm, StabilizerEditForm
+from .models import Stabilizer, TipStabilizer, DatasheetStabilizer
 
 
 # Create your views here.
@@ -117,7 +120,7 @@ class StabilizersListTipKorpusView(ListView):
 
 class StabilizerAddView(CreateView):
     """
-    Класс для добавления нового диода
+    Класс для добавления нового стабилизатора
     """
     model = Stabilizer
     form_class = StabilizerAddForm
@@ -129,6 +132,28 @@ class StabilizerAddView(CreateView):
         context['title'] = 'Добавление нового стабилизатора'
         context.update(get_context_com())
         return context
+
+
+class StabilizerEditView(UpdateView):
+    """
+    Класс для редактирования диода
+    """
+    model = Stabilizer
+    form_class = StabilizerEditForm
+    template_name = 'stabilizers/stabilizer_edit.html'
+    context_object_name = 'stabilizer'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Редактирование диода'
+        context.update(get_context_com())
+        return context
+
+    def get_success_url(self):
+        return reverse('stabilizer_detail', kwargs={'pk': self.object.pk})
+
+
+
 
 
 class StabilizerDetailView(DetailView):
@@ -144,3 +169,107 @@ class StabilizerDetailView(DetailView):
         context['title'] = 'Stabilizer Detail'
         context.update(get_context_com())
         return context
+
+
+class StabilizerPrimechChangeView(UpdateView):
+    """
+    Класс для редактирования примчания
+    """
+    model = Stabilizer
+    form_class = StabilizerPrimechAddForm
+    template_name = 'stabilizers/stabilizer_detail.html'
+    context_object_name = 'stabilizer'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'primech'
+        context.update(get_context_com())
+        return context
+
+    def get_success_url(self):
+        return reverse('stabilizer_detail', kwargs={'pk': self.object.pk})
+
+
+def change_stabilizer_amout(request, pk):
+    """
+    Функция для изменения количества стабилизаторов
+    """
+    if request.method == 'POST':
+        stabilizer = Stabilizer.objects.get(id=pk)
+        amount = stabilizer.amount
+        total = accounting_(request, amount)
+        stabilizer.amount = total
+        stabilizer.save()
+        return redirect('stabilisers_all')
+    else:
+        return redirect('stabilisers_all')
+
+
+def stabilizer_count(request, pk):
+    """
+    Функция для изменения количества диодов
+    """
+    stabilizer = get_object_or_404(Stabilizer, id=pk)
+
+    context = {
+        'title': 'stabilizer_count',
+        'stabilizer': stabilizer,
+    }
+    context.update(get_context_com())
+    if request.method == 'POST':
+        amount = stabilizer.amount
+        total = accounting_(request, amount)
+        stabilizer.amount = total
+        stabilizer.save()
+        return redirect('stabilizer_detail', pk=pk)
+    else:
+        return render(request, 'stabilizers/stabilizer_detail.html', context)
+
+
+class DatasheetStabilizerAddView(CreateView):
+    """
+    Класс для добавления нового даташита диода
+    """
+    model = DatasheetStabilizer
+    form_class = DatasheetStabilizerAddForm
+    template_name = 'stabilizers/datasheet_stabilizer_add.html'
+    success_url = '/stabilizers/datasheetadd/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Добавление нового диода'
+        context['datasheets'] = DatasheetStabilizer.objects.all().order_by('discription')
+        context.update(get_context_com())
+        return context
+
+    def form_valid(self, form):
+        uploaded_file = form.cleaned_data['url']
+        file = "datasheets/stabilizers/" + uploaded_file.name
+        if DatasheetStabilizer.objects.filter(url=file).exists():
+            messages.error(self.request, f"Файл с именем <b>{uploaded_file.name}</b> уже существует.")
+        else:
+            messages.success(self.request, f"Файл <b>{uploaded_file.name}</b> успешно загружен.")
+            form.save()
+        return super().form_valid(form)
+
+
+# def diode_removal_confirmation(request, pk):
+#     """
+#     Функция для подтверждения удаления диода
+#     """
+#     diode = get_object_or_404(Diode, id=pk)
+#     context = {
+#         'title': 'diode_removal_confirmation',
+#         'diode': diode,
+#     }
+#     context.update(get_context_com())
+#     return render(request, 'diodes/diode_removal_confirmation.html', context)
+#
+#
+# def diode_delete(request, pk):
+#     """
+#     Функция для удаления транзистора
+#     """
+#     diode = get_object_or_404(Diode, id=pk)
+#     diode.delete()
+#     return redirect('diodes_all')
