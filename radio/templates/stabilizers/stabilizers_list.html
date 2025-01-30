@@ -42,7 +42,7 @@
         {% for st in stabilizers %}
             <tr>
                 <td>
-                    <a href="#"><img src="/static/app/img/minus.png" width="15" height="15" alt="Убрать диод"/></a>
+                    <a href="{% url 'stabilizer_removal_confirmation' st.id %}"><img src="/static/app/img/minus.png" width="15" height="15" alt="Убрать диод"/></a>
                     <a href="{% url 'stabilizer_detail' st.id %}"><button type="button" class="btn btn-sm btn-info">{{ st.name }}</button></a>
                 </td>
                 <td style="font-size:0.9rem">{{ st.mark }}</td>

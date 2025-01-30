@@ -153,9 +153,6 @@ class StabilizerEditView(UpdateView):
         return reverse('stabilizer_detail', kwargs={'pk': self.object.pk})
 
 
-
-
-
 class StabilizerDetailView(DetailView):
     """
     Класс для вывода детальной информации о диоде
@@ -226,50 +223,50 @@ def stabilizer_count(request, pk):
         return render(request, 'stabilizers/stabilizer_detail.html', context)
 
 
-class DatasheetStabilizerAddView(CreateView):
+def datasheet_stabilizer_add(request):
     """
-    Класс для добавления нового даташита диода
+    Функция для добавления нового даташита
     """
-    model = DatasheetStabilizer
-    form_class = DatasheetStabilizerAddForm
-    template_name = 'stabilizers/datasheet_stabilizer_add.html'
-    success_url = '/stabilizers/datasheetadd/'
+    datasheets = DatasheetStabilizer.objects.all().order_by('discription')
+    if request.method == 'POST':
+        form = DatasheetStabilizerAddForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = form.cleaned_data['url']
+            file = "datasheets/stabilizers/" + uploaded_file.name
+            if DatasheetStabilizer.objects.filter(url=file).exists():
+                messages.error(request, f"Файл с именем <b>{uploaded_file.name}</b> уже существует.")
+            else:
+                messages.success(request, f"Файл <b>{uploaded_file.name}</b> успешно загружен.")
+                form.save()
+            return redirect('datasheet_stabilizer_add')
+    else:
+        form = DatasheetStabilizerAddForm()
+    context = {
+        'title': 'Добавление нового даташита стабилизатора',
+        'datasheets': datasheets,
+        'form': form,
+    }
+    context.update(get_context_com())
+    return render(request, 'stabilizers/datasheet_stabilizer_add.html', context=context)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Добавление нового диода'
-        context['datasheets'] = DatasheetStabilizer.objects.all().order_by('discription')
-        context.update(get_context_com())
-        return context
 
-    def form_valid(self, form):
-        uploaded_file = form.cleaned_data['url']
-        file = "datasheets/stabilizers/" + uploaded_file.name
-        if DatasheetStabilizer.objects.filter(url=file).exists():
-            messages.error(self.request, f"Файл с именем <b>{uploaded_file.name}</b> уже существует.")
-        else:
-            messages.success(self.request, f"Файл <b>{uploaded_file.name}</b> успешно загружен.")
-            form.save()
-        return super().form_valid(form)
+def stabilizer_removal_confirmation(request, pk):
+    """
+    Функция для подтверждения удаления стабилизатора
+    """
+    stabilizer = get_object_or_404(Stabilizer, id=pk)
+    context = {
+        'title': 'stabilizer_removal_confirmation',
+        'stabilizer': stabilizer,
+    }
+    context.update(get_context_com())
+    return render(request, 'stabilizers/stabilizer_removal_confirmation.html', context)
 
 
-# def diode_removal_confirmation(request, pk):
-#     """
-#     Функция для подтверждения удаления диода
-#     """
-#     diode = get_object_or_404(Diode, id=pk)
-#     context = {
-#         'title': 'diode_removal_confirmation',
-#         'diode': diode,
-#     }
-#     context.update(get_context_com())
-#     return render(request, 'diodes/diode_removal_confirmation.html', context)
-#
-#
-# def diode_delete(request, pk):
-#     """
-#     Функция для удаления транзистора
-#     """
-#     diode = get_object_or_404(Diode, id=pk)
-#     diode.delete()
-#     return redirect('diodes_all')
+def stabilizer_delete(request, pk):
+    """
+    Функция для удаления стабилизатора
+    """
+    stabilizer = get_object_or_404(Stabilizer, id=pk)
+    stabilizer.delete()
+    return redirect('stabilisers_all')

@@ -4,9 +4,6 @@ from django.contrib import admin
 from .models import *
 
 
-
-
-
 admin.site.register(Diode)
 admin.site.register(TipDiode)
 admin.site.register(TipKorpusDiode)

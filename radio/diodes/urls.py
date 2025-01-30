@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import DiodeListView, DiodeListTipView, DiodeListTipKorpusView, DiodeAddView, \
-    DiodeDetailView, DiodeEditView, DiodePrimechChangeView, DatasheetDiodeAddView, change_diode_amout, diode_count, \
+    DiodeDetailView, DiodeEditView, DiodePrimechChangeView, datasheet_diode_add, change_diode_amout, diode_count, \
     diode_removal_confirmation, diode_delete
 
 urlpatterns = [
@@ -11,7 +11,7 @@ urlpatterns = [
     path('add/', DiodeAddView.as_view(), name='diode_add'),
     path('detail/<int:pk>/', DiodeDetailView.as_view(), name='diode_detail'),
     path('edit/<int:pk>/', DiodeEditView.as_view(), name='diode_edit'),
-    path('datasheetadd/', DatasheetDiodeAddView.as_view(), name='datasheet_diode_add'),
+    path('datasheetadd/', datasheet_diode_add, name='datasheet_diode_add'),
     path('change/<int:pk>/', change_diode_amout, name='change_diode_amout'),
     path('prim/<int:pk>/', DiodePrimechChangeView.as_view(), name='diode_primech_change'),
     path('count/<int:pk>/', diode_count, name='diode_count'),

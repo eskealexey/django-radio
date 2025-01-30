@@ -1,11 +1,10 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.http import HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
+from myapp.utils import get_name_korpus, get_context_com, accounting_
 
 from .forms import TransistorAddForm, DatasheetTransistorAddForm, TransistorPrimechAddForm, TransistorEditForm
 from .models import TipTrans, Transistor, DatasheetTransistor
-from myapp.utils import get_name_korpus, get_context_com, accounting_
 
 
 def transistors_all(request):

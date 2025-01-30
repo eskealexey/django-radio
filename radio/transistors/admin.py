@@ -1,7 +1,10 @@
 from django.contrib import admin
 
-from .models import Transistor
+# from .models import Transistor
 from .forms import TransistorAddForm
+# Register your models here.
+from .models import *
+
 
 class DatasheetAdmin(admin.ModelAdmin):
     form = TransistorAddForm  # Указываем свою форму
@@ -14,17 +17,6 @@ class TransistorAdmin:
 
 
 admin.site.register(Transistor)
-
-
-
-# Register your models here.
-from .models import *
-
-
-
-
-
-# admin.site.register(Transistor)
 admin.site.register(TipTrans)
 admin.site.register(TipKorpus)
 admin.site.register(DatasheetTransistor)

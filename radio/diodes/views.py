@@ -175,32 +175,31 @@ class DiodePrimechChangeView(UpdateView):
         return reverse('diode_detail', kwargs={'pk': self.object.pk})
 
 
-class DatasheetDiodeAddView(CreateView):
+def datasheet_diode_add(request):
     """
-    Класс для добавления нового даташита диода
+    Функция для добавления нового даташита
     """
-    model = DatasheetDiode
-    form_class = DatasheetDiodeAddForm
-    template_name = 'diodes/datasheet_diode_add.html'
-    success_url = '/diodes/datasheetadd/'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Добавление нового диода'
-        context['datasheets'] = DatasheetDiode.objects.all().order_by('discription')
-        context.update(get_context_com())
-        return context
-
-    def form_valid(self, form):
-        uploaded_file = form.cleaned_data['url']
-        file = "datasheets/diodes/" + uploaded_file.name
-        if DatasheetDiode.objects.filter(url=file).exists():
-            messages.error(self.request, f"Файл с именем <b>{uploaded_file.name}</b> уже существует.")
-        else:
-            messages.success(self.request, f"Файл <b>{uploaded_file.name}</b> успешно загружен.")
-            form.save()
-        return super().form_valid(form)
-
+    datasheets = DatasheetDiode.objects.all().order_by('discription')
+    if request.method == 'POST':
+        form = DatasheetDiodeAddForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = form.cleaned_data['url']
+            file = "datasheets/diodes/" + uploaded_file.name
+            if DatasheetDiode.objects.filter(url=file).exists():
+                messages.error(request, f"Файл с именем <b>{uploaded_file.name}</b> уже существует.")
+            else:
+                messages.success(request, f"Файл <b>{uploaded_file.name}</b> успешно загружен.")
+                form.save()
+            return redirect('datasheet_diode_add')
+    else:
+        form = DatasheetDiodeAddForm()
+    context = {
+        'title': 'Добавление нового даташита диода',
+        'datasheets': datasheets,
+        'form': form,
+    }
+    context.update(get_context_com())
+    return render(request, 'diodes/datasheet_diode_add.html', context=context)
 
 
 def change_diode_amout(request, pk):
