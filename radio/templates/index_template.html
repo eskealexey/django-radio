@@ -85,6 +85,22 @@
             <li><a class="dropdown-item text-dark" href="#">Все типы</a></li>
           </ul>
         </li>
+
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Микроконтроллеры</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item text-dark" href="{% url 'stabilisers_all' %}">Все типы</a></li>
+            <li><hr class="dropdown-divider"></li>
+            {% for mc in tipmcs %}
+              {% if mc %}
+              <li><a class="dropdown-item text-dark" href="#">{{ mc.name }}</a></li>
+              {% endif %}
+              {% endfor %}
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-dark" href="#">Add Datasheets</a></li>
+          </ul>
+        </li>
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Модули</a>
           <ul class="dropdown-menu">

@@ -1,17 +1,86 @@
 {% extends 'index_template.html' %}}
-
+{% load static %}
 {% block content %}
-    После смерти Александра в 323 году до н. э. Лисимах получил, в изложении Юстина «как храбрейший из всех»,
-    в управление самую неспокойную провинцию Македонской империи — Фракию. Вначале его власть распространялась
-    лишь на прибрежные земли возле Чёрного и Эгейского морей. Первые двадцать лет он был занят войнами против фракийцев,
-    придунайских скифов, гетов и бунтовавших греческих полисов, которые проходили с переменным успехом.
-    Во время одного из походов он даже попал в плен к правителю гетов Дромихету, который счёл более выгодным для себя
-    отпустить высокопоставленного пленника домой. Вплоть до 302 года до н. э., хотя Лисимах и участвовал в многочисленных
-    и кровопролитных войнах диадохов за наследство Александра, его роль была незначительной. Владения Лисимаха находились
-    на окраине Македонской империи и не вызывали особого интереса у амбициозных диадохов. Ситуация изменилась во время
-    Четвёртой войны диадохов. К этому времени Лисимах смог собрать сильное войско, а также аккумулировать в казне
-    необходимые для ведения войны средства. В союзе с другими диадохами Селевком и Кассандром он участвовал в битве при
-    Ипсе 301 года до н. э., во время которой погиб Антигон I Одноглазый.
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+              <div class="card-body" style="text-align: center;">
+                <img src="{% static 'app/img/transistor.png'%}" class="card-img-top" alt="транзисторы" style="height: 64px; width: auto;">
+                <h5 class="card-title">Транзисторы
+                </h5>
+                <p class="card-text">.................</p>
+                <a href="{% url 'transistors_all' %}" class="btn btn-primary">Перейти</a>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+              <div class="card-body" style="text-align: center;">
+                  <img src="{% static 'app/img/diode.png'%}" class="card-img-top" alt="Диоды"  style="height: 64px; width: auto;">
+                <h5 class="card-title">Диоды
+                </h5>
+                <p class="card-text">.................</p>
+                <a href="{% url 'diodes_all' %}" class="btn btn-primary">Перейти</a>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+              <div class="card-body" style="text-align: center;">
+                  <img src="{% static 'app/img/zener.png'%}" class="card-img-top" alt="Стабилизаторы" style="height: 64px; width: auto;">
+                <h5 class="card-title">Стабилизаторы
+                </h5>
+                <p class="card-text">.................</p>
+                <a href="{% url 'stabilisers_all' %}" class="btn btn-primary">Перейти</a>
+              </div>
+            </div>
+        </div>
+    </div>
+
+<p></p>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+              <div class="card-body" style="text-align: center;">
+                <img src="{% static 'app/img/microschema.png'%}" class="card-img-top" alt="микросхемы" style="height: 64px; width: auto;">
+                <h5 class="card-title">Микросхемы
+                </h5>
+                <p class="card-text">.................</p>
+                <a href="#" class="btn btn-primary">Перейти</a>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+              <div class="card-body" style="text-align: center;">
+                  <img src="{% static 'app/img/micro.png'%}" class="card-img-top" alt="Микроконтроллеры"  style="height: 64px; width: auto;">
+                <h5 class="card-title">Микроконтроллеры
+                </h5>
+                <p class="card-text">.................</p>
+                <a href="#" class="btn btn-primary">Перейти</a>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+              <div class="card-body" style="text-align: center;">
+                  <img src="{% static 'app/img/modul.png'%}" class="card-img-top" alt="Модули" style="height: 64px; width: auto;">
+                <h5 class="card-title">Модули
+                </h5>
+                <p class="card-text">.................</p>
+                <a href="#" class="btn btn-primary">Перейти</a>
+              </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
 {% endblock %}
 
 {% block left %}
