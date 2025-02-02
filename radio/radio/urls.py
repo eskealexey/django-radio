@@ -27,6 +27,7 @@ urlpatterns = [
     path('transistors/', include('transistors.urls'), name='transistors'),
     path('diodes/', include('diodes.urls'), name='diodes'),
     path('stab/', include('stabilizers.urls'), name='stab'),
+    path('microschems/', include('microschems.urls'), name='microschems'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

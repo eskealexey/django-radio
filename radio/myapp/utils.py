@@ -2,6 +2,7 @@ from django.http import HttpRequest
 from transistors.models import TipTrans
 from diodes.models import TipDiode
 from stabilizers.models import TipStabilizer
+from microschems.models import TipMicroschema
 
 def get_name_korpus(quary_)->set:
     """
@@ -21,10 +22,12 @@ def get_context_com()-> dict:
     tiptrans = TipTrans.objects.all()
     tipdiodes = TipDiode.objects.all()
     tipstabs = TipStabilizer.objects.all()
+    tipmicroschems = TipMicroschema.objects.all()
     context = {
         'tiptrans': tiptrans,
         'tip_diode': tipdiodes,
         'tipstabs': tipstabs,
+        'tipmicroschems': tipmicroschems,
     }
     return context
 
