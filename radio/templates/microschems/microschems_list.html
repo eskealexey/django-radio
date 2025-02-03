@@ -7,7 +7,7 @@
             <h4 class="text-center">{{ headword }}</h4>
         </div>
         <div class="col-md-4">
-          {% if tipmicrosсhema_id == 0 %}
+          {% if tipmicro_id == 0 %}
           <form action="" method="get">
             <button class="btn btn-sm btn-light" type="submit">Найти</button>
             <input type="text" name="find" id="find" size="15" placeholder="по названию">
@@ -20,9 +20,9 @@
             Корпуса:
         </div>
         <div class="col-md-11 border">
-            {% for link, description in korpus %}
-               <a href="#">{{ description }}</a>
-            {% endfor %}
+                {% for link, description in korpus %}
+                   <a href="{% url 'microschems_tip_korpus_list' tipmicro_id link %}">{{ description }}</a>
+                {% endfor %}
         </div>
     </div>
 
@@ -34,7 +34,7 @@
                 <th>Тип</th>
                 <th>Корпус</th>
                 <th>Назначение</th>
-                <th>Количество</th>
+                <th>Кол-во</th>
                 <th>DataSheet</th>
             </tr>
         </thead>
@@ -50,31 +50,10 @@
                 <td style="font-size:0.9rem">{{ mc.tip_korpusa }}</td>
                 <td style="font-size:0.9rem">{{ mc.naznachenie }}</td>
                 <td>
-                    <div class="row g-1">
-                        <div class="col-md-3 fw-medium text-warning bg-success text-center">
+
+                        <div class="fw-medium text-warning bg-success text-center">
                             {{ mc.amount }}
                         </div>
-                        <div class="col-md-9">
-                            <form action="#" method="post">
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <input type="number" name="quantity" value="0" min="0" size="1">
-                                    </div>
-                                    <div class="col-md-5 text-center">
-                                          <input type="radio" name="activ" id="add" value="+" required>
-                                          <label for="add">+</label>
-
-                                          <input type="radio" name="activ" id="del" value="-" required>
-                                          <label for="del">-</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <button class="btn btn-sm btn-success" type="submit">Ok</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                 </td>
                 <td style="font-size:0.8rem">
                     {% for d in mc.datasheet.all %}

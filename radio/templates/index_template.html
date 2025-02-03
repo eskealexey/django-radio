@@ -82,7 +82,7 @@
               <li><hr class="dropdown-divider"></li>
               {% for t_mc in tipmicroschems %}
                   {% if t_mc %}
-                    <li><a class="dropdown-item text-dark" href="#">{{ t_mc.name }}</a></li>
+                    <li><a class="dropdown-item text-dark" href="{% url 'microschems_tip_list' t_mc.pk %}">{{ t_mc.name }}</a></li>
                   {% endif %}
               {% endfor %}
             <li><hr class="dropdown-divider"></li>

@@ -1,11 +1,12 @@
 from django.urls import path
 
-from .views import microschems_all
+from .views import microschems_all, microschems_tip_list, microschems_tip_korpus_list, microschems_nazn_list
+
 urlpatterns = [
     path('', microschems_all, name='microschems_all'),
-    # path('<int:tip_id>/', microschems_list_tip, name='microschems_list_tip'),
-    #
-    # path('<int:tip_id>/<int:korpus_id>/', microschems_list_tip_korpus, name='microschems_list_tip_korpus'),
+    path('<int:tip_id>/', microschems_tip_list, name='microschems_tip_list'),
+    path('<int:tip_id>/<int:korpus_id>/', microschems_tip_korpus_list, name='microschems_tip_korpus_list'),
+    path('nazn/<int:nazn_id>/', microschems_nazn_list, name='microschems_nazn_list')
 
     # path('<int:tip_id>/<int:korpus_id>', microschems_list_tip_korpus, name='microschems_list_tip_korpus'),
 #     path('add/', transistor_add, name='transistor_add'),

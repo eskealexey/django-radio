@@ -14,7 +14,7 @@
   <ul class="list-group list-group-flush">
       {% for nazn in naznach %}
         {% if microschems %}
-            <a href="#" class="list-group-item">{{nazn.name}}</a>
+            <a href="{% url 'microschems_nazn_list' nazn.pk %}" class="list-group-item">{{nazn.name}}</a>
         {% endif %}
       {% endfor %}
   </ul>
