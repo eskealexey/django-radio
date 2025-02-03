@@ -1,0 +1,141 @@
+{% extends 'index_template.html' %}}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-7 card">
+          <div class="card-body">
+            <h1 class="card-title">Микросхема {{microschema.name}}</h1>
+              <h3 class="card-subtitle mb-2 text-body-secondary">Маркировка: <i><u>{{ microschema.mark }}</u></i></h3>
+              <p></p>
+              <p class="card-text">
+                Тип микросхемы: <i><u>{{ microschema.tip_micro.name }}</u></i>
+              </p>
+              <p class="card-text">
+                Назначение микросхемы: <i><u>{{ microschema.naznachenie.name }}</u></i>
+              </p>
+              <p class="card-text">
+                Корпус:   <i><u>{{ microschema.tip_korpusa.name }}</u></i>
+              </p>
+                <div class="card-body border border-success p-3 mb-2 bg-light text-dark">
+                    <div class="row align-baseline">
+                        <div class="col-7"><h4>Количество в наличии:</h4></div>
+                        <div class="col-3 text-center"><h3><i><u>{{ microschema.amount }}</u></i></h3></div>
+                        <div class="col-2"><h3>шт.</h3></div>
+
+                          <!-- Кнопка-триггер модального окна -->
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                      Изменить
+                    </button>
+
+                    <!-- Модальное окно -->
+                    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel2">Добавить / Отнять</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                          </div>
+                          <div class="modal-body">
+                              <form method="post" action="{% url 'microschema_count' microschema.id %}">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="idt" value="{{ microschema.id }}">
+                                  <p><input type="number" id="quantity" name="quantity" class="form-control" min="0" placeholder="кол-во" required></p>
+                                  <div class="row align-baseline">
+                                      <div class="col-4">
+                                          <input type="radio" name="activ" id="add" value="+" required>
+                                          <label for="add">Добавить (+)</label>
+                                      </div>
+                                      <div class="col-6">
+                                          <input type="radio" name="activ" id="del" value="-" required>
+                                          <label for="del">Отнять (-)</label>
+                                      </div>
+                                  </div>
+                                  <p></p>
+                                  <div class="g-5">
+                                      <button type="submit" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Выполнить операцию</button>
+                                  </div>
+                              </form>
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    </div>
+
+                </div>
+<p></p>
+<div class="g-2"><a href="{% url 'microschema_edit' microschema.id %}"><button class="btn btn-sm btn-primary">Редактировать</button></a></div>
+
+          </div>
+        </div>
+        <div class="col-5">
+            <div>
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Примечания:</h5>
+                    <p class="card-text">{{ microschema.primech|safe}}</p>
+
+                      <!-- Кнопка-триггер модального окна -->
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      Изменить
+                    </button>
+
+                    <!-- Модальное окно -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить ПРИМЕЧАНИЯ</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                          </div>
+                          <div class="modal-body">
+                              <form method="POST" action="{% url 'microschema_primech_change' microschema.id %}">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="idt" value="{{ microschema.id }}">
+                                  <p><textarea id="primech" name="primech" rows="5" class="form-control">{{ microschema.primech }}</textarea></p>
+                                  <p><button type="submit" class="btn btn-sm btn-secondary">Сохранить изменения</button></p>
+                              </form>
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+            </div>
+            <p></p>
+            <div>
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Файлы Datasheets:</h5>
+                    <p class="card-text text-left">
+                        {% for file in microschema.datasheet.all %}
+                            <p><a href="/media/{{file.url}}" target="_blank"><button class="btn btn-sm btn-secondary">{{ file }}</button></a></p>
+                        {% endfor %}
+                    </p>
+
+                  </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block left %}
+    {% include "microschems/microschema_left.html" %}
+{% endblock %}
