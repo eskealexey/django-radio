@@ -93,11 +93,11 @@
           <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Микроконтроллеры</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item text-dark" href="#">Все типы</a></li>
+            <li><a class="dropdown-item text-dark" href="{% url 'mcu_all' %}">Все типы</a></li>
             <li><hr class="dropdown-divider"></li>
-            {% for mc in tipmcs %}
+            {% for mc in tipmcus %}
               {% if mc %}
-              <li><a class="dropdown-item text-dark" href="#">{{ mc.name }}</a></li>
+              <li><a class="dropdown-item text-dark" href="{% url 'mcu_tip_list' mc.pk %}">{{ mc.name }}</a></li>
               {% endif %}
               {% endfor %}
             <li><hr class="dropdown-divider"></li>

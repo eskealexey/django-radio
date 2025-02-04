@@ -1,0 +1,96 @@
+{% extends 'index_template.html' %}}
+
+{% block content %}
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-md-8">
+            <h4 class="text-center">{{ headword }}</h4>
+        </div>
+        <div class="col-md-4">
+          {% if tipmcu_id == 0 %}
+          <form action="" method="get">
+            <button class="btn btn-sm btn-light" type="submit">Найти</button>
+            <input type="text" name="find" id="find" size="15" placeholder="по названию">
+          </form>
+          {% endif %}
+        </div>
+    </div>
+    <div class="row border border-success" style="font-size:0.8rem">
+        <div class="col-md-1 border fst-italic">
+            Корпуса:
+        </div>
+        <div class="col-md-11 border">
+                {% for link, description in korpus %}
+                   <a href="#">{{ description }}</a>
+                {% endfor %}
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead  class="table-dark text-center">
+            <tr>
+                <th>Наименование</th>
+                <th>Маркировка</th>
+                <th>Тип</th>
+                <th>Корпус</th>
+
+                <th>Кол-во</th>
+                <th>DataSheet</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mc in mcus %}
+            <tr>
+                <td>
+                    <a href="#"><img src="/static/app/img/minus.png" width="15" height="15" alt="Убрать диод"/></a>
+                    <a href="#"><button type="button" class="btn btn-sm btn-info">{{ mc.name }}</button></a>
+                </td>
+                <td style="font-size:0.9rem">{{ mc.mark }}</td>
+                <td style="font-size:0.9rem">{{ mc.tip_mcu }}</td>
+                <td style="font-size:0.9rem">{{ mc.tip_korpusa }}</td>
+
+                <td>
+
+                        <div class="fw-medium text-warning bg-success text-center">
+                            {{ mc.amount }}
+                        </div>
+                </td>
+                <td style="font-size:0.8rem">
+                    {% for d in mc.datasheet.all %}
+                      <a href="/media/{{d.url}}" target="_blank">{{ d.discription }}</a>&nbsp;
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<hr>
+   <div class="pagination">
+    {% if mcus.has_other_pages %}
+        {% if mcus.has_previous %}
+        <a href="?page={{ mcus.previous_page_number }}">&lt;&lt;</a>
+        {% endif %}
+
+        {% for i in mcus.paginator.page_range %}
+            {% if mcus.number == i %}
+                <b>{{ i }}</b>
+            {% else %}
+                <a href="?page={{ i }}">{{ i }}</a>
+            {% endif%}
+        {% endfor %}
+
+        {% if mcus.has_next %}
+           <a href="?page={{ mcus.next_page_number }}">&gt;&gt;</a>
+        {% endif %}
+    {% endif %}
+    </div>
+
+{% endblock %}
+
+
+
+{% block left %}
+    {% include "mcus/mcu_left.html" %}
+{% endblock %}

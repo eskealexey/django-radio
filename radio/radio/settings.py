@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'diodes',
     'stabilizers',
     'microschems',
+    'mcu',
 ]
 
 MIDDLEWARE = [
