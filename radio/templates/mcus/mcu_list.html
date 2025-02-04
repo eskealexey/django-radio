@@ -21,7 +21,7 @@
         </div>
         <div class="col-md-11 border">
                 {% for link, description in korpus %}
-                   <a href="#">{{ description }}</a>
+                   <a href="{% url 'mcu_tip_korpus_list' tipmcu_id link %}">{{ description }}</a>
                 {% endfor %}
         </div>
     </div>
@@ -42,8 +42,8 @@
         {% for mc in mcus %}
             <tr>
                 <td>
-                    <a href="#"><img src="/static/app/img/minus.png" width="15" height="15" alt="Убрать диод"/></a>
-                    <a href="#"><button type="button" class="btn btn-sm btn-info">{{ mc.name }}</button></a>
+                    <a href="{% url 'mcu_removal_confirmation' mc.pk %}"><img src="/static/app/img/minus.png" width="15" height="15" alt="Убрать диод"/></a>
+                    <a href="{% url 'mcu_detail' mc.pk %}"><button type="button" class="btn btn-sm btn-info">{{ mc.name }}</button></a>
                 </td>
                 <td style="font-size:0.9rem">{{ mc.mark }}</td>
                 <td style="font-size:0.9rem">{{ mc.tip_mcu }}</td>

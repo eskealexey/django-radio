@@ -1,5 +1,5 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -101,7 +101,7 @@
               {% endif %}
               {% endfor %}
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-dark" href="#">Add Datasheets</a></li>
+            <li><a class="dropdown-item text-dark" href="{% url 'datasheet_mcu_add' %}">Add Datasheets</a></li>
           </ul>
         </li>
 
