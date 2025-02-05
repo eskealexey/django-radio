@@ -248,4 +248,3 @@ def mcu_delete(request, pk):
     mcu = get_object_or_404(Mcu, id=pk)
     mcu.delete()
     return redirect('mcu_all')
-

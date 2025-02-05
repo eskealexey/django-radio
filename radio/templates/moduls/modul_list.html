@@ -33,8 +33,8 @@
         {% for mod in mods %}
             <tr>
                 <td>
-                    <a href="#"><img src="/static/app/img/minus.png" width="15" height="15" alt="Убрать диод"/></a>
-                    <a href="#"><button type="button" class="btn btn-sm btn-info">{{ mod.name }}</button></a>
+                    <a href="{% url 'modul_removal_confirmation' mod.id %}"><img src="/static/app/img/minus.png" width="15" height="15" alt="Убрать модуль"/></a>
+                    <a href="{% url 'modul_detail' mod.id %}"><button type="button" class="btn btn-sm btn-info">{{ mod.name }}</button></a>
                 </td>
                 <td style="font-size:0.9rem">{{ mod.mark }}</td>
                 <td style="font-size:0.9rem">{{ mod.tip_modul }}</td>
