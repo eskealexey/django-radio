@@ -1,0 +1,86 @@
+{% extends 'index_template.html' %}}
+
+{% block content %}
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-md-8">
+            <h4 class="text-center">{{ headword }}</h4>
+        </div>
+        <div class="col-md-4">
+          {% if tipmod_id == 0 %}
+          <form action="" method="get">
+            <button class="btn btn-sm btn-light" type="submit">Найти</button>
+            <input type="text" name="find" id="find" size="15" placeholder="по названию">
+          </form>
+          {% endif %}
+        </div>
+    </div>
+
+
+    <table class="table table-bordered table-striped">
+        <thead  class="table-dark text-center">
+            <tr>
+                <th>Наименование</th>
+                <th>Маркировка</th>
+                <th>Тип</th>
+
+
+                <th>Кол-во</th>
+                <th>DataSheet</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mod in mods %}
+            <tr>
+                <td>
+                    <a href="#"><img src="/static/app/img/minus.png" width="15" height="15" alt="Убрать диод"/></a>
+                    <a href="#"><button type="button" class="btn btn-sm btn-info">{{ mod.name }}</button></a>
+                </td>
+                <td style="font-size:0.9rem">{{ mod.mark }}</td>
+                <td style="font-size:0.9rem">{{ mod.tip_modul }}</td>
+
+                <td>
+
+                        <div class="fw-medium text-warning bg-success text-center">
+                            {{ mod.amount }}
+                        </div>
+                </td>
+                <td style="font-size:0.8rem">
+                    {% for d in mod.datasheet.all %}
+                      <a href="/media/{{d.url}}" target="_blank">{{ d.discription }}</a>&nbsp;
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<hr>
+   <div class="pagination">
+    {% if mods.has_other_pages %}
+        {% if mods.has_previous %}
+        <a href="?page={{ mods.previous_page_number }}">&lt;&lt;</a>
+        {% endif %}
+
+        {% for i in mods.paginator.page_range %}
+            {% if mods.number == i %}
+                <b>{{ i }}</b>
+            {% else %}
+                <a href="?page={{ i }}">{{ i }}</a>
+            {% endif%}
+        {% endfor %}
+
+        {% if mods.has_next %}
+           <a href="?page={{ mods.next_page_number }}">&gt;&gt;</a>
+        {% endif %}
+    {% endif %}
+    </div>
+
+{% endblock %}
+
+
+
+{% block left %}
+    {% include "moduls/modul_left.html" %}
+{% endblock %}

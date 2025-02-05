@@ -1,0 +1,34 @@
+<p>
+<a href="#"><button type="button" class="btn btn-sm btn-secondary">Добавить модуль</button></a>
+</p>
+<p>
+<a href="{% url 'moduls_all' %}"><button type="button" class="btn btn-sm btn-secondary">К списку модулей</button></a>
+</p>
+<hr>
+<div class="card">
+  <div class="card-header mb-0 bg-secondary text-white">
+    <h5>Назначение</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+      {% for nazn in naznach_mod %}
+        {% if mods %}
+            <a href="{% url 'moduls_nazn_list' nazn.pk %}" class="list-group-item">{{nazn.name}}</a>
+        {% endif %}
+      {% endfor %}
+  </ul>
+</div>
+
+<style>
+  .list-group-item {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .list-group-item:hover {
+    background-color: #f0f0f0;
+  }
+
+  .list-group-item.active {
+    background-color: #808080;
+  }
+</style>

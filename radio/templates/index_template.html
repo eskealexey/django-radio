@@ -108,11 +108,15 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Модули</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item text-dark" href="#">Тип1</a></li>
-            <li><a class="dropdown-item text-dark" href="#">Тип2</a></li>
-            <li><a class="dropdown-item text-dark" href="#">Тип3</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-dark" href="#">Все типы</a></li>
+              <li><a class="dropdown-item text-dark" href="{% url 'moduls_all' %}">Все типы</a></li>
+              <li><hr class="dropdown-divider"></li>
+                {% for m in tipmods %}
+                {% if m %}
+                <li><a class="dropdown-item text-dark" href="{% url 'moduls_tip_list' m.pk %}">{{ m.name }}</a></li>
+                {% endif %}
+                {% endfor %}
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-dark" href="#">Add Datasheets</a></li>
           </ul>
         </li>
       </ul>

@@ -29,6 +29,7 @@ urlpatterns = [
     path('stab/', include('stabilizers.urls'), name='stab'),
     path('microschems/', include('microschems.urls'), name='microschems'),
     path('mcu/', include('mcu.urls'), name='mcu'),
+    path('modul/', include('arduino.urls'), name='modul'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,6 +4,7 @@ from diodes.models import TipDiode
 from stabilizers.models import TipStabilizer
 from microschems.models import TipMicroschema, NaznachenieMicroschema
 from mcu.models import TipMcu
+from arduino.models import TipModul, NaznachenieModul
 
 
 def get_name_korpus(quary_)->set:
@@ -27,6 +28,8 @@ def get_context_com()-> dict:
     tipmicroschems = TipMicroschema.objects.all()
     tipmcus = TipMcu.objects.all()
     naznach = NaznachenieMicroschema.objects.all()
+    tipmods = TipModul.objects.all()
+    naznach_mod = NaznachenieModul.objects.all()
     context = {
         'tiptrans': tiptrans,
         'tip_diode': tipdiodes,
@@ -34,6 +37,8 @@ def get_context_com()-> dict:
         'tipmcus': tipmcus,
         'tipmicroschems': tipmicroschems,
         'naznach': naznach,
+        'naznach_mod': naznach_mod,
+        'tipmods': tipmods,
     }
     return context
 
